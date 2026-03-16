@@ -146,12 +146,14 @@ flowchart TD
     ST["Source Text"] --> SP["Semantic Parsing<br>(LLM frontend)"]
     UQ["User Question"] --> QP["Query Parsing<br>(LLM frontend)"]
 
-    SP --> CIR
-    QP --> CIR
+    SP --> IL
+    QP --> IL
 
-    subgraph CIR["CANONICAL SEMANTIC LAYER — Domain IR"]
-        direction LR
-        types["types"] ~~~ ops["operations"] ~~~ rules["rules"] ~~~ lex["lexicon"]
+    subgraph IL["Chomsky's I-Language"]
+        subgraph CIR["CANONICAL SEMANTIC LAYER — Domain IR"]
+            direction LR
+            types["types"] ~~~ ops["operations"] ~~~ rules["rules"] ~~~ lex["lexicon"]
+        end
     end
 
     CIR --> GC["Graph Compilation<br>(backend)"]
@@ -161,12 +163,15 @@ flowchart TD
     QG --> KG
     KG --> SA["Structured Answers"]
 
+    style IL fill:#f3e5f5,stroke:#9c27b0,stroke-width:2px,stroke-dasharray: 5 5
     style CIR fill:#ede7f6,stroke:#5e35b1,stroke-width:2px
     style ST fill:#e3f2fd,stroke:#1565c0
     style UQ fill:#e3f2fd,stroke:#1565c0
     style KG fill:#e8f5e9,stroke:#2e7d32
     style SA fill:#e8f5e9,stroke:#2e7d32
 ```
+
+The dashed outer box is deliberate. In Chomsky's framework [2], **I-language** is the full internalized computational system — not just the grammar rules, but everything the system has learned from exposure to data. The Domain IR is a strict subset: it keeps only what is needed for deterministic execution, discarding audience framing, lexical variation, and ambiguity. The I-language contains all of that plus the IR. The IR lives *inside* the I-language, not the other way around.
 
 Both flows — extraction and querying — converge at the Domain IR. This is what makes alignment deterministic.
 
