@@ -1,0 +1,1675 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://borisdev.github.io/domain-grammar-compiler/">
+      
+      
+        <link rel="prev" href="..">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.5">
+    
+    
+      
+        <title>Beyond RAG: Chomsky's I-Language Meets Compiler Design - Boris Dev</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="purple">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#beyond-rag-how-chomskys-i-language-and-compiler-design-converge-on-knowledge-graphs" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Boris Dev" class="md-header__button md-logo" aria-label="Boris Dev" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Boris Dev
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Beyond RAG: Chomsky's I-Language Meets Compiler Design
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="purple"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="purple"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Boris Dev" class="md-nav__button md-logo" aria-label="Boris Dev" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Boris Dev
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Beyond RAG: Chomsky's I-Language Meets Compiler Design
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Beyond RAG: Chomsky's I-Language Meets Compiler Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#abstract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Abstract
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-the-llvm-insight" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. The LLVM Insight
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-i-language-and-domain-ir-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. I-Language and Domain IR Components
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. I-Language and Domain IR Components">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#primitive-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Primitive types
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#operations-relations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operations (relations)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#composition-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Composition rules
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#concept-lexicon-i-language-layer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Concept lexicon (I-Language layer)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-the-knowledge-graph" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. The Knowledge Graph
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-minimal-primitives-derived-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Minimal Primitives, Derived Concepts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-why-graph-not-sql-why-graph-not-llm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Why Graph, Not SQL. Why Graph, Not LLM.
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Why Graph, Not SQL. Why Graph, Not LLM.">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#graph-vs-sql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Graph vs. SQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#graph-vs-llm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Graph vs. LLM
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-the-i-language-lens" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. The I-Language Lens
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. The I-Language Lens">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#i-language-domain-ir" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        I-Language ⊃ Domain IR
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-grammar-vs-schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Grammar vs. Schema
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-entity-vs-process-why-the-split-matters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Entity vs. Process: Why the Split Matters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-error-taxonomy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Error Taxonomy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Error Taxonomy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#where-the-compiler-analogy-breaks-down" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where the compiler analogy breaks down
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-build-principles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Build Principles
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Build Principles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#grammar-is-discovered-not-just-defined" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grammar is discovered, not just defined
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cycle-depth-and-blast-radius" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cycle depth and blast radius
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ambiguity-is-the-main-enemy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ambiguity is the main enemy
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#abstract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Abstract
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-the-llvm-insight" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. The LLVM Insight
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-i-language-and-domain-ir-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. I-Language and Domain IR Components
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. I-Language and Domain IR Components">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#primitive-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Primitive types
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#operations-relations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operations (relations)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#composition-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Composition rules
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#concept-lexicon-i-language-layer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Concept lexicon (I-Language layer)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-the-knowledge-graph" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. The Knowledge Graph
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-minimal-primitives-derived-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Minimal Primitives, Derived Concepts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-why-graph-not-sql-why-graph-not-llm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Why Graph, Not SQL. Why Graph, Not LLM.
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Why Graph, Not SQL. Why Graph, Not LLM.">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#graph-vs-sql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Graph vs. SQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#graph-vs-llm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Graph vs. LLM
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-the-i-language-lens" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. The I-Language Lens
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. The I-Language Lens">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#i-language-domain-ir" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        I-Language ⊃ Domain IR
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-grammar-vs-schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Grammar vs. Schema
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-entity-vs-process-why-the-split-matters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Entity vs. Process: Why the Split Matters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-error-taxonomy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Error Taxonomy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Error Taxonomy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#where-the-compiler-analogy-breaks-down" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where the compiler analogy breaks down
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-build-principles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Build Principles
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Build Principles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#grammar-is-discovered-not-just-defined" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grammar is discovered, not just defined
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cycle-depth-and-blast-radius" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cycle depth and blast radius
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ambiguity-is-the-main-enemy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ambiguity is the main enemy
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="beyond-rag-how-chomskys-i-language-and-compiler-design-converge-on-knowledge-graphs">Beyond RAG: How Chomsky's I-Language and Compiler Design Converge on Knowledge Graphs</h1>
+<p><strong>Boris Dev</strong> | March 2026</p>
+<hr />
+<h2 id="abstract">Abstract</h2>
+<p>Most AI knowledge systems are RAG pipelines: embed documents, retrieve by similarity, generate text. They work until you need <em>auditable reasoning</em> — provenance, contradiction detection, cross-source inference.</p>
+<p>This paper describes an alternative: treat domain knowledge extraction as a <strong>compilation problem</strong>. Define a domain grammar — the set of valid semantic structures — and compile source text into typed intermediate representations (IR) that execute against a knowledge graph.</p>
+<p>The architecture draws from <strong>compiler design</strong> (LLVM's many-to-one-to-many IR pattern), <strong>Chomsky's I-language</strong> (the distinction between internalized competence and surface performance), and <strong>formal ontology</strong> (BFO's entity/process/artifact type system).</p>
+<p>The core claim: <strong>a well-designed intermediate representation, governed by a generative grammar, is more powerful than pattern-matching on surface text</strong>.</p>
+<hr />
+<h2 id="1-the-llvm-insight">1. The LLVM Insight</h2>
+<p>LLVM IR sits in the middle of a many-to-one-to-many translation system. Many source languages (C, Rust, Swift) compile to one IR. Many backends (x86, ARM, GPU) compile from it. The IR is the canonical semantic layer — the single representation that decouples all inputs from all outputs.</p>
+<p>A Domain IR uses the same architecture:</p>
+<pre class="mermaid"><code>flowchart LR
+    subgraph Frontends["Many source languages"]
+        S1["Scientific papers"]
+        S2["User questions"]
+        S3["Expert annotations"]
+    end
+
+    subgraph ILang["I-Language"]
+        direction TB
+        LEX1["Lexicon&lt;br&gt;(canonicalization)"]
+        subgraph IR["Domain IR"]
+            direction LR
+            T["Types"] ~~~ O["Operations"] ~~~ R["Rules"]
+        end
+    end
+
+    subgraph Backends["Many execution targets"]
+        B1["Knowledge graph"]
+        B2["Compiled queries"]
+        B3["Structured answers"]
+    end
+
+    S1 --&gt; ILang
+    S2 --&gt; ILang
+    S3 --&gt; ILang
+    ILang --&gt; B1
+    ILang --&gt; B2
+    ILang --&gt; B3
+
+    style ILang fill:#f3e5f5,stroke:#9c27b0,stroke-width:2px,stroke-dasharray: 5 5
+    style IR fill:#ede7f6,stroke:#5e35b1,stroke-width:2px
+    style Frontends fill:#e3f2fd,stroke:#1565c0
+    style Backends fill:#e8f5e9,stroke:#2e7d32</code></pre>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>LLVM</th>
+<th>Domain Knowledge System</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Frontend</td>
+<td>C, Rust, Swift parsers</td>
+<td>LLM extraction, query parsing</td>
+</tr>
+<tr>
+<td>IR</td>
+<td>LLVM IR</td>
+<td>Domain IR (types + operations + rules)</td>
+</tr>
+<tr>
+<td>Symbol table</td>
+<td>Linker symbol resolution</td>
+<td>Lexicon / canonicalization (I-Language layer)</td>
+</tr>
+<tr>
+<td>Backend</td>
+<td>x86, ARM code generators</td>
+<td>Graph compiler, query generator, evidence views</td>
+</tr>
+</tbody>
+</table>
+<p>The critical property: <strong>all inputs and all outputs compile through the same IR</strong>. Three different users can ask the same question in three different ways:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Casual user:  &quot;Is keto good for diabetes?&quot;
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>Expert:       &quot;Does ketogenic diet reduce HbA1c in T2DM?&quot;
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>Quantitative: &quot;What&#39;s the effect size of keto on HbA1c?&quot;
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>All three parse to the same IR:
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>  ContrastFrameQuery(
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    intervention = keto_diet,
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    outcome      = hba1c
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>  )
+</code></pre></div>
+<p>The surface language varies. The semantics don't. That is the key.</p>
+<hr />
+<h2 id="2-i-language-and-domain-ir-components">2. I-Language and Domain IR Components</h2>
+<p>The I-Language has four components. Three belong to the <strong>Domain IR</strong> (the deterministic core), and one — the <strong>lexicon</strong> — sits outside the IR but inside the I-Language, resolving surface variation before the IR ever sees it.</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Layer</th>
+<th>Role</th>
+<th>Compiler Analogy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Primitive types</strong></td>
+<td>Domain IR</td>
+<td>Entities and processes</td>
+<td>Type system</td>
+</tr>
+<tr>
+<td><strong>Operations</strong></td>
+<td>Domain IR</td>
+<td>Relations between types</td>
+<td>Opcodes</td>
+</tr>
+<tr>
+<td><strong>Composition rules</strong></td>
+<td>Domain IR</td>
+<td>Valid semantic structures</td>
+<td>Type rules</td>
+</tr>
+<tr>
+<td><strong>Concept lexicon</strong></td>
+<td>I-Language</td>
+<td>Canonicalized vocabulary</td>
+<td>Symbol table</td>
+</tr>
+</tbody>
+</table>
+<h3 id="primitive-types">Primitive types</h3>
+<p>Grounded in Basic Formal Ontology (BFO) [1], three categories:</p>
+<table>
+<thead>
+<tr>
+<th>BFO Category</th>
+<th>IR Primitive</th>
+<th>What it means</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Continuant (entity)</td>
+<td>Things that <em>persist</em></td>
+<td>"Metformin" exists whether or not anyone is studying it</td>
+</tr>
+<tr>
+<td>Occurrent (process)</td>
+<td>Things that <em>unfold in time</em></td>
+<td>"Taking metformin 500mg daily for 12 weeks" has a start and end</td>
+</tr>
+<tr>
+<td>Information Content Entity (artifact)</td>
+<td>Claims about reality</td>
+<td>Two findings can contradict each other; both exist in the graph</td>
+</tr>
+</tbody>
+</table>
+<h3 id="operations-relations">Operations (relations)</h3>
+<p>A small set of typed edges — the IR's instruction set:</p>
+<table>
+<thead>
+<tr>
+<th>Edge</th>
+<th>From → To</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>TESTED</code></td>
+<td>Finding → Intervention</td>
+<td>What was given</td>
+</tr>
+<tr>
+<td><code>FOR</code></td>
+<td>Finding → Condition</td>
+<td>In what context</td>
+</tr>
+<tr>
+<td><code>ON</code></td>
+<td>Finding → Outcome</td>
+<td>Measuring what</td>
+</tr>
+<tr>
+<td><code>VS</code></td>
+<td>Finding → Comparator</td>
+<td>Against what</td>
+</tr>
+<tr>
+<td><code>OBSERVED</code></td>
+<td>Finding → Effect</td>
+<td>The result</td>
+</tr>
+<tr>
+<td><code>ACTS_VIA</code></td>
+<td>Intervention → Mechanism</td>
+<td>How it works</td>
+</tr>
+<tr>
+<td><code>REPORTED_IN</code></td>
+<td>Finding → Source</td>
+<td>Provenance</td>
+</tr>
+</tbody>
+</table>
+<h3 id="composition-rules">Composition rules</h3>
+<p>Enforced by schema validation — an invalid structure is a type error:</p>
+<table>
+<thead>
+<tr>
+<th>Rule</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A Finding requires intervention + condition + outcome</td>
+<td>Core semantic triple</td>
+</tr>
+<tr>
+<td>An Effect requires a measurement</td>
+<td>Effects must reference measurements</td>
+</tr>
+<tr>
+<td>A ContrastFrame requires intervention + comparator + outcome</td>
+<td>Pairwise comparison</td>
+</tr>
+</tbody>
+</table>
+<h3 id="concept-lexicon-i-language-layer">Concept lexicon (I-Language layer)</h3>
+<p>The lexicon sits outside the IR but inside the I-Language. It maps surface forms to canonical concepts before the IR sees them — resolving the linguistic variation that the IR deliberately cannot represent:</p>
+<table>
+<thead>
+<tr>
+<th>Surface Forms</th>
+<th>Canonical</th>
+<th>Ontology</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"keto diet", "ketogenic diet", "LCHF"</td>
+<td><code>keto_diet</code></td>
+<td>MeSH</td>
+</tr>
+<tr>
+<td>"Glucophage", "metformin HCl"</td>
+<td><code>metformin</code></td>
+<td>RxNorm</td>
+</tr>
+<tr>
+<td>"A1c", "glycated hemoglobin"</td>
+<td><code>hba1c</code></td>
+<td>LOINC</td>
+</tr>
+<tr>
+<td>"AMPK activation", "AMP kinase pathway"</td>
+<td><code>ampk_activation</code></td>
+<td>Gene Ontology</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="3-the-knowledge-graph">3. The Knowledge Graph</h2>
+<p>The knowledge graph is not the IR. It is the <strong>compiled output</strong> — the execution-ready representation built from validated IR instances.</p>
+<pre class="mermaid"><code>flowchart TD
+    ST["Source Text"] --&gt; SP["Semantic Parsing&lt;br&gt;(LLM frontend)"]
+    UQ["User Question"] --&gt; QP["Query Parsing&lt;br&gt;(LLM frontend)"]
+
+    SP --&gt; IL
+    QP --&gt; IL
+
+    subgraph IL["Chomsky's I-Language"]
+        LEX["Lexicon&lt;br&gt;(canonicalization)"]
+        subgraph CIR["CANONICAL SEMANTIC LAYER — Domain IR"]
+            direction LR
+            types["Types"] ~~~ ops["Operations"] ~~~ rules["Rules"]
+        end
+    end
+
+    IL --&gt; GC["Graph Compilation&lt;br&gt;(backend)"]
+    IL --&gt; QG["Query Generation&lt;br&gt;(backend)"]
+
+    GC --&gt; KG["Knowledge Graph"]
+    QG --&gt; KG
+    KG --&gt; SA["Structured Answers"]
+
+    style IL fill:#f3e5f5,stroke:#9c27b0,stroke-width:2px,stroke-dasharray: 5 5
+    style CIR fill:#ede7f6,stroke:#5e35b1,stroke-width:2px
+    style ST fill:#e3f2fd,stroke:#1565c0
+    style UQ fill:#e3f2fd,stroke:#1565c0
+    style KG fill:#e8f5e9,stroke:#2e7d32
+    style SA fill:#e8f5e9,stroke:#2e7d32</code></pre>
+<p>The dashed outer box is deliberate. In Chomsky's framework [2], <strong>I-language</strong> is the full internalized computational system — not just the grammar rules, but everything the system has learned from exposure to data. The Domain IR is a strict subset: it keeps only what is needed for deterministic execution, discarding audience framing, lexical variation, and ambiguity. The I-language contains all of that plus the IR. The IR lives <em>inside</em> the I-language, not the other way around.</p>
+<p>Both flows — extraction and querying — converge at the Domain IR. This is what makes alignment deterministic.</p>
+<p>The compilation pipeline mirrors a standard compiler:</p>
+<table>
+<thead>
+<tr>
+<th>Compiler Stage</th>
+<th>Domain System Stage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lexing / parsing</td>
+<td>LLM extraction from source text</td>
+</tr>
+<tr>
+<td>AST construction</td>
+<td>IR instance creation</td>
+</tr>
+<tr>
+<td>Type checking</td>
+<td>Schema validation</td>
+</tr>
+<tr>
+<td>Symbol resolution</td>
+<td>Concept canonicalization</td>
+</tr>
+<tr>
+<td>Code generation</td>
+<td>Graph patch emission</td>
+</tr>
+<tr>
+<td>Linking</td>
+<td>Graph merge / deduplication</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="4-minimal-primitives-derived-concepts">4. Minimal Primitives, Derived Concepts</h2>
+<blockquote>
+<p><strong>Keep primitive operations small. Derive higher-level concepts as patterns.</strong></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Primitive</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>entity</td>
+<td>Domain object (condition, population)</td>
+</tr>
+<tr>
+<td>process</td>
+<td>Thing that happens (intervention, mechanism)</td>
+</tr>
+<tr>
+<td>artifact</td>
+<td>Information entity (outcome, measurement)</td>
+</tr>
+<tr>
+<td>comparison</td>
+<td>Pairwise contrast (ContrastFrame)</td>
+</tr>
+<tr>
+<td>effect</td>
+<td>Causal change (direction + magnitude)</td>
+</tr>
+</tbody>
+</table>
+<p>Derived concepts are <strong>queries over primitives</strong>, not new primitives:</p>
+<table>
+<thead>
+<tr>
+<th>Derived Concept</th>
+<th>Composed From</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TreatmentBenefit</td>
+<td>ContrastFrame + positive Effect</td>
+</tr>
+<tr>
+<td>SideEffect</td>
+<td>Intervention + adverse Outcome</td>
+</tr>
+<tr>
+<td>DoseResponse</td>
+<td>Intervention + Measurement across doses</td>
+</tr>
+<tr>
+<td>MechanismCluster</td>
+<td>Interventions sharing a Mechanism edge</td>
+</tr>
+</tbody>
+</table>
+<p>New questions don't require schema changes — they're new query patterns over existing primitives. This is how the IR stays stable as the corpus grows.</p>
+<hr />
+<h2 id="5-why-graph-not-sql-why-graph-not-llm">5. Why Graph, Not SQL. Why Graph, Not LLM.</h2>
+<h3 id="graph-vs-sql">Graph vs. SQL</h3>
+<p>SQL handles single-entity lookups. Graphs win when questions cross entity boundaries — which is every interesting question in a knowledge system.</p>
+<p><strong>"What shares a mechanism with X?"</strong>
+SQL: joins across multiple tables, recursive CTEs for sub-mechanisms.
+Graph: start at X, follow <code>ACTS_VIA</code>, follow back. Two hops. The query reads like the question.</p>
+<p><strong>"What helps with Y but doesn't cause Z?"</strong>
+SQL: LEFT JOINs to exclude adverse outcomes. Grows ugly with multiple constraints.
+Graph: one <code>NOT EXISTS</code> clause per exclusion. Readable. Auditable.</p>
+<h3 id="graph-vs-llm">Graph vs. LLM</h3>
+<p>An LLM gives you a conclusion. A graph gives you a map you can verify.</p>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>LLM</th>
+<th>Knowledge Graph</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Completeness</strong></td>
+<td>Frozen training snapshot; can't tell you what it's missing</td>
+<td>Contains all extracted claims</td>
+</tr>
+<tr>
+<td><strong>Provenance</strong></td>
+<td>Can't show <em>why</em> it believes something</td>
+<td>Every claim traces to its source</td>
+</tr>
+<tr>
+<td><strong>Contradictions</strong></td>
+<td>Averages or hedges</td>
+<td>Both sides coexist as first-class nodes</td>
+</tr>
+<tr>
+<td><strong>Auditability</strong></td>
+<td>"Trust my paragraph"</td>
+<td>"Trace the subgraph yourself"</td>
+</tr>
+</tbody>
+</table>
+<p>The correct answer to a complex knowledge question is not a paragraph. It is a subgraph — a set of typed nodes connected by typed edges, each traceable to a source.</p>
+<hr />
+<h2 id="6-the-i-language-lens">6. The I-Language Lens</h2>
+<p>The compiler analogy is primary. But Chomsky's framework [2] provides vocabulary that the compiler tradition lacks.</p>
+<p>In Chomsky's Minimalist Program [3], <strong>I-language</strong> (internalized language) is not the grammar rules alone — it is the whole computational system built from exposure to data. The grammar is the spec; the I-language is the instantiated competence.</p>
+<table>
+<thead>
+<tr>
+<th>Chomsky</th>
+<th>Domain Compiler</th>
+<th>Why it matters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Grammar</strong> (formal rules)</td>
+<td>Type definitions, edge types, composition rules</td>
+<td>What structures are <em>legal</em></td>
+</tr>
+<tr>
+<td><strong>I-language</strong> (internalized system)</td>
+<td>Grammar + canonical concepts + populated KG + pipelines</td>
+<td>What the system actually <em>knows</em></td>
+</tr>
+<tr>
+<td><strong>Primary linguistic data</strong></td>
+<td>Source corpus</td>
+<td>The input from which competence is acquired</td>
+</tr>
+<tr>
+<td><strong>Competence</strong></td>
+<td>What the grammar can express</td>
+<td>Valid structures, independent of any execution</td>
+</tr>
+<tr>
+<td><strong>Performance</strong></td>
+<td>What extraction actually produces</td>
+<td>Particular executions, subject to LLM errors</td>
+</tr>
+</tbody>
+</table>
+<p>Two systems with identical grammars but different corpora have different I-languages — just as two speakers with the same Universal Grammar but different linguistic exposure have different I-languages.</p>
+<h3 id="i-language-domain-ir">I-Language ⊃ Domain IR</h3>
+<p>The Domain IR is a strict, deterministic subset of the I-language. The I-language includes audience framing, lexical variation, ambiguity, and pragmatic context — dimensions that the IR deliberately discards:</p>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th style="text-align: center;">I-Language</th>
+<th style="text-align: center;">Domain IR</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ontology (entities, processes)</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">yes</td>
+</tr>
+<tr>
+<td>Causal/evidence structure</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">yes</td>
+</tr>
+<tr>
+<td>Audience framing</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">no</td>
+</tr>
+<tr>
+<td>Lexical variation</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">no</td>
+</tr>
+<tr>
+<td>Ambiguity</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">no</td>
+</tr>
+<tr>
+<td>Pragmatics / context</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">no</td>
+</tr>
+</tbody>
+</table>
+<p>The IR keeps only what is needed for deterministic execution. Everything else is resolved during semantic parsing (the frontend step). This is why three different audience phrasings collapse to one IR instance.</p>
+<hr />
+<h2 id="7-grammar-vs-schema">7. Grammar vs. Schema</h2>
+<p>A distinction that matters for system evolution:</p>
+<p>A schema is a <strong>serialized structural specification</strong>: fields, types, enums, constraints. A domain grammar is the <strong>generative rule system</strong> from which schemas are derived.</p>
+<p>The key difference: <strong>a schema does not expose its own derivation.</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Schema</th>
+<th>Domain Grammar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Contains</strong></td>
+<td>Fields, types, constraints</td>
+<td>All of schema + dependency chains, ontological categories, composition rules, extension invariants</td>
+</tr>
+<tr>
+<td><strong>Generative?</strong></td>
+<td>No — it is a product</td>
+<td>Yes — it is an engine</td>
+</tr>
+<tr>
+<td><strong>Evolvable?</strong></td>
+<td>Only by hand</td>
+<td>New valid schemas can be derived from it</td>
+</tr>
+</tbody>
+</table>
+<p>Most organizations build bottom-up: engineer writes schema → schema is opaque → someone writes a data dictionary to translate it back into English. The grammar-first approach is top-down: ontology → domain grammar → schemas are <em>generated</em>. Meaning comes first. Structure is derived.</p>
+<p>The grammar <em>is</em> the living, executable data dictionary.</p>
+<hr />
+<h2 id="8-entity-vs-process-why-the-split-matters">8. Entity vs. Process: Why the Split Matters</h2>
+<p>The entity/process distinction (from BFO [1]) gives three engineering rules for free:</p>
+<p><strong>Rule 1: Entities share across sources. Processes don't.</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>// BAD: temporal detail baked into entity
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>(:Intervention {name: &quot;metformin&quot;, dose: &quot;2g/day&quot;, duration: &quot;24w&quot;})
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>Two sources with different doses fork into N copies.
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>Cross-source queries require fuzzy matching.
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>// GOOD: entity (shared) + process (per-source)
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>(:Intervention {name: &quot;metformin&quot;})
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>   ←[:REALIZES]─ (:Course {dose: &quot;2g/day&quot;,   duration: &quot;24w&quot;})  // Source A
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>   ←[:REALIZES]─ (:Course {dose: &quot;500mg/day&quot;, duration: &quot;12w&quot;})  // Source B
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>One entity node. Two process instances.
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>All queries traverse through a single shared node.
+</code></pre></div>
+<p><strong>Rule 2: Processes carry temporal structure. Entities don't.</strong>
+If you put "duration: 12 weeks" on an entity node, two sources with different durations can't share it.</p>
+<p><strong>Rule 3: Artifacts are epistemic — they assert claims, not facts.</strong>
+Two findings can contradict each other and both coexist in the graph. This is what makes contradiction detection possible.</p>
+<hr />
+<h2 id="9-error-taxonomy">9. Error Taxonomy</h2>
+<p>Three error categories, mirroring compiler error classes:</p>
+<table>
+<thead>
+<tr>
+<th>Error Class</th>
+<th>Compiler Analog</th>
+<th>Example</th>
+<th>Caught By</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Syntax error</strong></td>
+<td>Parse error</td>
+<td>Missing required field, type mismatch</td>
+<td>Schema validation</td>
+</tr>
+<tr>
+<td><strong>Semantic error</strong></td>
+<td>Type error (compiles but wrong)</td>
+<td>Labeling an adverse effect as "improvement"</td>
+<td>Gold-standard evaluation</td>
+</tr>
+<tr>
+<td><strong>Linking error</strong></td>
+<td>Wrong symbol resolution</td>
+<td>"pelvic floor training" → <code>physical_therapy</code> instead of <code>pelvic_floor_training</code></td>
+<td>Query-level evaluation</td>
+</tr>
+</tbody>
+</table>
+<h3 id="where-the-compiler-analogy-breaks-down">Where the compiler analogy breaks down</h3>
+<ol>
+<li>
+<p><strong>Compilers have deterministic frontends.</strong> Our frontend (LLM extraction) is stochastic. The same source text may produce different IR instances on different runs.</p>
+</li>
+<li>
+<p><strong>Compilers preserve semantics.</strong> A correct compiler guarantees the compiled program means the same as the source. Our system <em>lossy-compresses</em> — a long document becomes a handful of structured claims.</p>
+</li>
+<li>
+<p><strong>Compilers don't need gold standards.</strong> Compiler correctness is provable. Our system's correctness is empirical — measured against human annotations, not proven by construction.</p>
+</li>
+</ol>
+<p>These limitations are fundamental, not incidental. They are why a Domain IR system needs evaluation suites, error taxonomies, and provenance chains — the machinery that compilers get for free from formal language theory.</p>
+<hr />
+<h2 id="10-build-principles">10. Build Principles</h2>
+<h3 id="grammar-is-discovered-not-just-defined">Grammar is discovered, not just defined</h3>
+<p>The model above is linear (ontology → grammar → schema). The actual system is a flywheel:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>source text → AI extraction → reveals grammar gaps → grammar evolves → re-extraction → re-eval
+</code></pre></div>
+<p>Each source document is "primary linguistic data" (in Chomsky's sense) that shapes the system's evolving I-language. The grammar is never finished.</p>
+<h3 id="cycle-depth-and-blast-radius">Cycle depth and blast radius</h3>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Change frequency</th>
+<th>Blast radius</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Prompts / mappings</td>
+<td>Every session</td>
+<td>Local</td>
+</tr>
+<tr>
+<td>Schema / artifacts</td>
+<td>Weekly</td>
+<td>Moderate — re-derive downstream</td>
+</tr>
+<tr>
+<td>Domain grammar</td>
+<td>Monthly</td>
+<td>Large — new extraction + query patterns</td>
+</tr>
+<tr>
+<td>Ontology</td>
+<td>Rarely</td>
+<td>Structural — ripples everywhere</td>
+</tr>
+</tbody>
+</table>
+<p>Most improvement is shallow (fix a prompt, add an alias). Deep changes (add a new ontology primitive) are rare but transformative.</p>
+<h3 id="ambiguity-is-the-main-enemy">Ambiguity is the main enemy</h3>
+<p>An LLM reduces ambiguity <em>probabilistically</em> — it picks the most likely interpretation. A domain grammar eliminates ambiguity <em>formally</em> or, when elimination is impossible, surfaces it explicitly.</p>
+<hr />
+<h2 id="references">References</h2>
+<p>[1] Arp, R., Smith, B., &amp; Spear, A.D. (2015). <em>Building Ontologies with Basic Formal Ontology</em>. MIT Press. — BFO provides the upper ontology: Continuant (entities), Occurrent (processes), Information Content Entity (artifacts).</p>
+<p>[2] Chomsky, N. (1986). <em>Knowledge of Language: Its Nature, Origin, and Use</em>. Praeger. — The I-language / E-language distinction: I-language is the internalized computational system; E-language is the set of externalizations.</p>
+<p>[3] Chomsky, N. (1995). <em>The Minimalist Program</em>. MIT Press. — Merge as the basic structure-building operation, the competence/performance distinction, the primacy of internal grammar over surface realization.</p>
+<p>[4] Aho, A.V., Lam, M.S., Sethi, R., &amp; Ullman, J.D. (2006). <em>Compilers: Principles, Techniques, and Tools</em> (2nd ed.). Addison-Wesley. — The dragon book. Source → IR → executable is the canonical pipeline this architecture adapts.</p>
+<p>[5] Lattner, C. &amp; Adve, V. (2004). "LLVM: A Compilation Framework for Lifelong Program Analysis &amp; Transformation." <em>CGO '04</em>. — The many-to-one-to-many IR pattern that this architecture generalizes to knowledge domains.</p>
+<p>[6] Rindflesch, T.C. &amp; Fiszman, M. (2003). "The interaction of domain knowledge and linguistic structure in natural language processing." <em>J Biomed Inform</em>, 36(6), 462-477. — SemMedDB: subject-predicate-object triples from biomedical text.</p>
+<p>[7] Pan, S. et al. (2024). "Unifying Large Language Models and Knowledge Graphs: A Roadmap." arXiv:2306.08302. — Surveys LLM + KG integration as a paradigm distinct from pure LLM or pure KG approaches.</p>
+<p>[8] Yih, W. et al. (2015). "Semantic Parsing via Staged Query Graph Generation." <em>ACL</em>. — Staged query construction paralleling the question → IR → compiled query pipeline.</p>
+<p>[9] Montague, R. (1973). "The Proper Treatment of Quantification in Ordinary English." In <em>Approaches to Natural Language</em>. — Composing meaning from parts via formal grammar. A more precise analogy than Chomsky's I-language for what composition rules actually do.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.code.copy", "navigation.instant", "navigation.top"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
