@@ -4,6 +4,24 @@
 
 ---
 
+## Abstract
+
+Most AI knowledge systems are RAG pipelines: embed documents, retrieve by similarity, generate text. They work until you need *auditable reasoning* — provenance, contradiction detection, cross-source inference.
+
+This paper describes an alternative: treat domain knowledge extraction as a **compilation problem**. Define a domain grammar — the set of valid semantic structures — and compile source text into typed intermediate representations (IR) that execute against a knowledge graph.
+
+The architecture draws from **compiler design** (LLVM's many-to-one-to-many IR pattern), **Chomsky's I-language** (the distinction between internalized competence and surface performance), and **formal ontology** (BFO's entity/process/artifact type system).
+
+The core claim: **a well-designed intermediate representation, governed by a generative grammar, is more powerful than pattern-matching on surface text**.
+
+---
+
+## 1. The LLVM Insight
+
+LLVM IR sits in the middle of a many-to-one-to-many translation system. Many source languages (C, Rust, Swift) compile to one IR. Many backends (x86, ARM, GPU) compile from it. The IR is the canonical semantic layer — the single representation that decouples all inputs from all outputs.
+
+A Domain IR uses the same architecture:
+
 ```mermaid
 flowchart LR
     subgraph Frontends["Many source languages"]
@@ -35,57 +53,6 @@ flowchart LR
     style Frontends fill:#e3f2fd,stroke:#1565c0
     style Backends fill:#e8f5e9,stroke:#2e7d32
 ```
-
-*The same pattern as LLVM — a canonical semantic layer that decouples all frontends from all backends.*
-
-```mermaid
-flowchart TD
-    ST["Source Text"] --> SP["Semantic Parsing\n(LLM frontend)"]
-    UQ["User Question"] --> QP["Query Parsing\n(LLM frontend)"]
-
-    SP --> CIR
-    QP --> CIR
-
-    subgraph CIR["CANONICAL SEMANTIC LAYER — Domain IR"]
-        direction LR
-        types["types"] ~~~ ops["operations"] ~~~ rules["rules"] ~~~ lex["lexicon"]
-    end
-
-    CIR --> GC["Graph Compilation\n(backend)"]
-    CIR --> QG["Query Generation\n(backend)"]
-
-    GC --> KG["Knowledge Graph"]
-    QG --> KG
-    KG --> SA["Structured Answers"]
-
-    style CIR fill:#ede7f6,stroke:#5e35b1,stroke-width:2px
-    style ST fill:#e3f2fd,stroke:#1565c0
-    style UQ fill:#e3f2fd,stroke:#1565c0
-    style KG fill:#e8f5e9,stroke:#2e7d32
-    style SA fill:#e8f5e9,stroke:#2e7d32
-```
-
-*Both flows — extraction and querying — converge at the Domain IR. This is what makes alignment deterministic.*
-
----
-
-## Abstract
-
-Most AI knowledge systems are RAG pipelines: embed documents, retrieve by similarity, generate text. They work until you need *auditable reasoning* — provenance, contradiction detection, cross-source inference.
-
-This paper describes an alternative: treat domain knowledge extraction as a **compilation problem**. Define a domain grammar — the set of valid semantic structures — and compile source text into typed intermediate representations (IR) that execute against a knowledge graph.
-
-The architecture draws from **compiler design** (LLVM's many-to-one-to-many IR pattern), **Chomsky's I-language** (the distinction between internalized competence and surface performance), and **formal ontology** (BFO's entity/process/artifact type system).
-
-The core claim: **a well-designed intermediate representation, governed by a generative grammar, is more powerful than pattern-matching on surface text**.
-
----
-
-## 1. The LLVM Insight
-
-LLVM IR sits in the middle of a many-to-one-to-many translation system. Many source languages (C, Rust, Swift) compile to one IR. Many backends (x86, ARM, GPU) compile from it. The IR is the canonical semantic layer — the single representation that decouples all inputs from all outputs.
-
-A Domain IR uses the same architecture:
 
 | Layer | LLVM | Domain Knowledge System |
 |-------|------|-------------------------|
@@ -176,19 +143,34 @@ The knowledge graph is not the IR. It is the **compiled output** — the executi
 
 ```mermaid
 flowchart TD
-    A["Source text"] --> B["LLM semantic parsing\n(frontend)"]
-    B --> C["IR instances\n(typed, structured claims)"]
-    C --> D["Schema validation\n(type checking)"]
-    D --> E["Concept canonicalization\n(symbol resolution)"]
-    E --> F["Graph patches\n(canonical claims)"]
-    F --> G["Merge / dedup / write\n(linking)"]
-    G --> H["Knowledge Graph\n(compiled program)"]
+    ST["Source Text"] --> SP["Semantic Parsing<br>(LLM frontend)"]
+    UQ["User Question"] --> QP["Query Parsing<br>(LLM frontend)"]
 
-    style C fill:#ede7f6,stroke:#5e35b1
-    style H fill:#e8f5e9,stroke:#2e7d32
+    SP --> CIR
+    QP --> CIR
+
+    subgraph CIR["CANONICAL SEMANTIC LAYER — Domain IR"]
+        direction LR
+        types["types"] ~~~ ops["operations"] ~~~ rules["rules"] ~~~ lex["lexicon"]
+    end
+
+    CIR --> GC["Graph Compilation<br>(backend)"]
+    CIR --> QG["Query Generation<br>(backend)"]
+
+    GC --> KG["Knowledge Graph"]
+    QG --> KG
+    KG --> SA["Structured Answers"]
+
+    style CIR fill:#ede7f6,stroke:#5e35b1,stroke-width:2px
+    style ST fill:#e3f2fd,stroke:#1565c0
+    style UQ fill:#e3f2fd,stroke:#1565c0
+    style KG fill:#e8f5e9,stroke:#2e7d32
+    style SA fill:#e8f5e9,stroke:#2e7d32
 ```
 
-This compilation pipeline mirrors a standard compiler:
+Both flows — extraction and querying — converge at the Domain IR. This is what makes alignment deterministic.
+
+The compilation pipeline mirrors a standard compiler:
 
 | Compiler Stage | Domain System Stage |
 |----------------|---------------------|
