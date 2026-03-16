@@ -4,47 +4,68 @@
 
 ---
 
-```
-Many source languages              Many execution targets
-(scientific papers,                (knowledge graph,
- user questions,                    compiled queries,
- expert annotations)                evidence views,
-            ↘                    ↗  structured answers)
-          Domain IR
+```mermaid
+flowchart LR
+    subgraph Frontends["Many source languages"]
+        S1["Scientific papers"]
+        S2["User questions"]
+        S3["Expert annotations"]
+    end
+
+    subgraph IR["Domain IR"]
+        direction TB
+        T["Types"] ~~~ O["Operations"]
+        R["Rules"] ~~~ L["Lexicon"]
+    end
+
+    subgraph Backends["Many execution targets"]
+        B1["Knowledge graph"]
+        B2["Compiled queries"]
+        B3["Structured answers"]
+    end
+
+    S1 --> IR
+    S2 --> IR
+    S3 --> IR
+    IR --> B1
+    IR --> B2
+    IR --> B3
+
+    style IR fill:#ede7f6,stroke:#5e35b1,stroke-width:2px
+    style Frontends fill:#e3f2fd,stroke:#1565c0
+    style Backends fill:#e8f5e9,stroke:#2e7d32
 ```
 
 *The same pattern as LLVM — a canonical semantic layer that decouples all frontends from all backends.*
 
-```
-LLVM IR    → instruction set of computation
-Domain IR  → instruction set of structured reasoning
-```
+```mermaid
+flowchart TD
+    ST["Source Text"] --> SP["Semantic Parsing\n(LLM frontend)"]
+    UQ["User Question"] --> QP["Query Parsing\n(LLM frontend)"]
 
----
+    SP --> CIR
+    QP --> CIR
 
-```
-     FRONTEND                                FRONTEND
-     (extraction)                            (query)
+    subgraph CIR["CANONICAL SEMANTIC LAYER — Domain IR"]
+        direction LR
+        types["types"] ~~~ ops["operations"] ~~~ rules["rules"] ~~~ lex["lexicon"]
+    end
 
-  Source Text                            User Question
-         ↓                                    ↓
-  Semantic Parsing (LLM)              Query Parsing (LLM)
-         ↓                                    ↓
-    ┌─────────────────────────────────────────────┐
-    │        CANONICAL SEMANTIC LAYER              │
-    │               Domain IR                      │
-    │    (types + operations + rules + lexicon)     │
-    └─────────────────────────────────────────────┘
-         ↓                                    ↓
-     BACKEND                              BACKEND
-     (compilation)                        (execution)
-         ↓                                    ↓
-  Graph Compilation                    Query Generation
-         ↓                                    ↓
-    Knowledge Graph  ←──── query ────→  Structured Answers
+    CIR --> GC["Graph Compilation\n(backend)"]
+    CIR --> QG["Query Generation\n(backend)"]
+
+    GC --> KG["Knowledge Graph"]
+    QG --> KG
+    KG --> SA["Structured Answers"]
+
+    style CIR fill:#ede7f6,stroke:#5e35b1,stroke-width:2px
+    style ST fill:#e3f2fd,stroke:#1565c0
+    style UQ fill:#e3f2fd,stroke:#1565c0
+    style KG fill:#e8f5e9,stroke:#2e7d32
+    style SA fill:#e8f5e9,stroke:#2e7d32
 ```
 
-*Both flows converge at the Domain IR. This is what makes alignment deterministic.*
+*Both flows — extraction and querying — converge at the Domain IR. This is what makes alignment deterministic.*
 
 ---
 
@@ -153,15 +174,18 @@ Maps surface forms to canonical concepts, aligned to standard vocabularies:
 
 The knowledge graph is not the IR. It is the **compiled output** — the execution-ready representation built from validated IR instances.
 
-```
-Source text
-   ↓  frontend (LLM semantic parsing)
-IR instances (typed, structured claims)
-   ↓  type checking (schema validation)
-   ↓  canonicalization (concept resolution)
-Graph patches (canonical claims)
-   ↓  backend (merge / dedup / write)
-Knowledge Graph (compiled program)
+```mermaid
+flowchart TD
+    A["Source text"] --> B["LLM semantic parsing\n(frontend)"]
+    B --> C["IR instances\n(typed, structured claims)"]
+    C --> D["Schema validation\n(type checking)"]
+    D --> E["Concept canonicalization\n(symbol resolution)"]
+    E --> F["Graph patches\n(canonical claims)"]
+    F --> G["Merge / dedup / write\n(linking)"]
+    G --> H["Knowledge Graph\n(compiled program)"]
+
+    style C fill:#ede7f6,stroke:#5e35b1
+    style H fill:#e8f5e9,stroke:#2e7d32
 ```
 
 This compilation pipeline mirrors a standard compiler:
