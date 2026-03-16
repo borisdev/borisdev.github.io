@@ -1,47 +1,50 @@
-# Domain Grammar as Compiler Architecture for Knowledge Systems
+# Domain IR: A Compiler Architecture for Knowledge Systems
 
 **Boris Dev** | March 2026
 
 ---
 
 ```
-              Ontology (primitives + relations)
-                 │
-                 │  constrains
-                 ▼
-            Domain Grammar (valid semantic structures)
-                 │
-                 │  guides parsing
-                 ▼
-Question ────► Concept IR ◄──── Source Text
-                 │                  │
-                 ▼                  ▼
-            Query Plan         Graph Patch
-                 │                  │
-                 └──► Knowledge ◄───┘
-                        Graph
+Many source languages              Many execution targets
+(scientific papers,                (knowledge graph,
+ user questions,                    compiled queries,
+ expert annotations)                evidence views,
+            ↘                    ↗  structured answers)
+          Domain IR
 ```
 
-```mermaid
-flowchart LR
-    BFO[upper ontology] --> DM((domain_modeling))
-    DC[domain concepts] --> DM
+*The same pattern as LLVM — a canonical semantic layer that decouples all frontends from all backends.*
 
-    DM --> G[grammar]
-
-    CS[ ] -->|source text| SP((semantic_parsing))
-    G --> SP
-    UQ[ ] -->|user question| SP
-
-    SP -->|ingestion protocol| SG[typed subgraph]
-    SG --> KG[(knowledge graph)]
-
-    SP -->|query protocol| GQ[graph query]
-    GQ --> KG
-
-    style CS fill:transparent,stroke:transparent
-    style UQ fill:transparent,stroke:transparent
 ```
+LLVM IR    → instruction set of computation
+Domain IR  → instruction set of structured reasoning
+```
+
+---
+
+```
+     FRONTEND                                FRONTEND
+     (extraction)                            (query)
+
+  Source Text                            User Question
+         ↓                                    ↓
+  Semantic Parsing (LLM)              Query Parsing (LLM)
+         ↓                                    ↓
+    ┌─────────────────────────────────────────────┐
+    │        CANONICAL SEMANTIC LAYER              │
+    │               Domain IR                      │
+    │    (types + operations + rules + lexicon)     │
+    └─────────────────────────────────────────────┘
+         ↓                                    ↓
+     BACKEND                              BACKEND
+     (compilation)                        (execution)
+         ↓                                    ↓
+  Graph Compilation                    Query Generation
+         ↓                                    ↓
+    Knowledge Graph  ←──── query ────→  Structured Answers
+```
+
+*Both flows converge at the Domain IR. This is what makes alignment deterministic.*
 
 ---
 
@@ -49,314 +52,337 @@ flowchart LR
 
 Most AI knowledge systems are RAG pipelines: embed documents, retrieve by similarity, generate text. They work until you need *auditable reasoning* — provenance, contradiction detection, cross-source inference.
 
-This paper describes an alternative: treat domain knowledge extraction as a **compilation problem**. Define a domain grammar — the set of valid semantic structures — and compile source text into typed intermediate representations (IR) that execute against a knowledge graph. The grammar is the single artifact that governs extraction, querying, and schema evolution.
+This paper describes an alternative: treat domain knowledge extraction as a **compilation problem**. Define a domain grammar — the set of valid semantic structures — and compile source text into typed intermediate representations (IR) that execute against a knowledge graph.
 
-The architecture draws equally from **compiler design** (source → IR → executable) and **Chomsky's Minimalist Program** (I-language, competence vs. performance, the primacy of internal grammar over surface form). Both traditions converge on the same insight: *a well-designed intermediate representation, governed by a generative grammar, is more powerful than pattern-matching on surface text*.
+The architecture draws from **compiler design** (LLVM's many-to-one-to-many IR pattern), **Chomsky's I-language** (the distinction between internalized competence and surface performance), and **formal ontology** (BFO's entity/process/artifact type system).
 
----
-
-## 1. The Core Idea
-
-A domain grammar is a generative rule system that defines:
-
-- **What concept classes exist** (entities, processes, artifacts)
-- **What compositions are valid** (a Finding must bind an intervention to an outcome via an observed effect)
-- **What transformations are legal** (source text → Concept IR → Query Plan or Graph Patch)
-
-From this grammar, everything else is derived: Pydantic schemas, graph schemas, table DDL, extraction prompts, query templates.
-
-| Compiler | Linguistics (Chomsky) | This System |
-|----------|-----------------------|-------------|
-| Source code | Surface form (E-language) | Source text / user question |
-| Parser | Grammar rules | Domain grammar |
-| AST / IR | Deep structure | Concept IR |
-| Machine code | Logical form | Executable form (Query Plan / Graph Patch) |
-| Runtime | — | Knowledge Graph |
-
-The compiler analogy dominates because the later stages are *execution artifacts*, not meaning representations. But the Chomsky parallel is not decorative — it provides the conceptual vocabulary for reasoning about the system's competence independently of any particular execution.
+The core claim: **a well-designed intermediate representation, governed by a generative grammar, is more powerful than pattern-matching on surface text**.
 
 ---
 
-## 2. Five Layers
+## 1. The LLVM Insight
 
-### Layer definitions
+LLVM IR sits in the middle of a many-to-one-to-many translation system. Many source languages (C, Rust, Swift) compile to one IR. Many backends (x86, ARM, GPU) compile from it. The IR is the canonical semantic layer — the single representation that decouples all inputs from all outputs.
 
-| Layer | Role | Static or Derived? |
-|-------|------|--------------------|
-| **Ontology** | Primitive types + relations | Static, designed |
-| **Domain Grammar** | Valid semantic structures built from ontology types | Static, designed (empirically tuned) |
-| **Concept IR** | Parsed, canonicalized meaning instances | Derived from source text + grammar |
-| **Executable Form** | System-ready operations | Derived from Concept IR |
-| **Knowledge Graph** | Instantiated ontology | Accumulated from Graph Patches |
+A Domain IR uses the same architecture:
 
-### Key relationships
+| Layer | LLVM | Domain Knowledge System |
+|-------|------|-------------------------|
+| Frontend | C, Rust, Swift parsers | LLM extraction, query parsing |
+| IR | LLVM IR | Domain IR (types + operations + rules + lexicon) |
+| Backend | x86, ARM code generators | Graph compiler, query generator, evidence views |
 
-- **Ontology underdetermines grammar.** Knowing that `Process` and `Entity` exist does not tell you which compositions are valid. That is a design choice.
-- **Grammar fully determines schema.** Given a precise grammar, the Pydantic models, graph schema, and DDL can be mechanically compiled. No human decision required.
-- **Concept IR is not ontology.** It *uses* ontology types but is a structured meaning instance, not a type definition.
+The critical property: **all inputs and all outputs compile through the same IR**. Three different users can ask the same question in three different ways:
+
+```
+Casual user:  "Is keto good for diabetes?"
+Expert:       "Does ketogenic diet reduce HbA1c in T2DM?"
+Quantitative: "What's the effect size of keto on HbA1c?"
+
+All three parse to the same IR:
+
+  ContrastFrameQuery(
+    intervention = keto_diet,
+    outcome      = hba1c
+  )
+```
+
+The surface language varies. The semantics don't. That is the key.
 
 ---
 
-## 3. Grammar vs. Schema — The Critical Distinction
+## 2. Domain IR Components
 
-A schema is a **serialized structural specification**: fields, types, enums, nesting, constraints. A domain grammar is the **generative rule system** that defines concept classes, dependency chains, allowed compositions, and transformation rules — from which schemas can be derived.
+The IR has four components, each with a direct compiler analogy:
+
+| Component | Role | Compiler Analogy |
+|-----------|------|------------------|
+| **Primitive types** | Entities and processes | Type system |
+| **Operations** | Relations between types | Opcodes |
+| **Composition rules** | Valid semantic structures | Type rules |
+| **Concept lexicon** | Canonicalized vocabulary | Symbol table |
+
+### Primitive types
+
+Grounded in Basic Formal Ontology (BFO) [1], three categories:
+
+| BFO Category | IR Primitive | What it means |
+|-------------|-------------|---------------|
+| Continuant (entity) | Things that *persist* | "Metformin" exists whether or not anyone is studying it |
+| Occurrent (process) | Things that *unfold in time* | "Taking metformin 500mg daily for 12 weeks" has a start and end |
+| Information Content Entity (artifact) | Claims about reality | Two findings can contradict each other; both exist in the graph |
+
+### Operations (relations)
+
+A small set of typed edges — the IR's instruction set:
+
+| Edge | From → To | Meaning |
+|------|-----------|---------|
+| `TESTED` | Finding → Intervention | What was given |
+| `FOR` | Finding → Condition | In what context |
+| `ON` | Finding → Outcome | Measuring what |
+| `VS` | Finding → Comparator | Against what |
+| `OBSERVED` | Finding → Effect | The result |
+| `ACTS_VIA` | Intervention → Mechanism | How it works |
+| `REPORTED_IN` | Finding → Source | Provenance |
+
+### Composition rules
+
+Enforced by schema validation — an invalid structure is a type error:
+
+| Rule | Meaning |
+|------|---------|
+| A Finding requires intervention + condition + outcome | Core semantic triple |
+| An Effect requires a measurement | Effects must reference measurements |
+| A ContrastFrame requires intervention + comparator + outcome | Pairwise comparison |
+
+### Concept lexicon
+
+Maps surface forms to canonical concepts, aligned to standard vocabularies:
+
+| Surface Forms | Canonical | Ontology |
+|---------------|-----------|----------|
+| "keto diet", "ketogenic diet", "LCHF" | `keto_diet` | MeSH |
+| "Glucophage", "metformin HCl" | `metformin` | RxNorm |
+| "A1c", "glycated hemoglobin" | `hba1c` | LOINC |
+| "AMPK activation", "AMP kinase pathway" | `ampk_activation` | Gene Ontology |
+
+---
+
+## 3. The Knowledge Graph Is a Compiled Program
+
+The knowledge graph is not the IR. It is the **compiled output** — the execution-ready representation built from validated IR instances.
+
+```
+Source text
+   ↓  frontend (LLM semantic parsing)
+IR instances (typed, structured claims)
+   ↓  type checking (schema validation)
+   ↓  canonicalization (concept resolution)
+Graph patches (canonical claims)
+   ↓  backend (merge / dedup / write)
+Knowledge Graph (compiled program)
+```
+
+This compilation pipeline mirrors a standard compiler:
+
+| Compiler Stage | Domain System Stage |
+|----------------|---------------------|
+| Lexing / parsing | LLM extraction from source text |
+| AST construction | IR instance creation |
+| Type checking | Schema validation |
+| Symbol resolution | Concept canonicalization |
+| Code generation | Graph patch emission |
+| Linking | Graph merge / deduplication |
+
+---
+
+## 4. Minimal Primitives, Derived Concepts
+
+> **Keep primitive operations small. Derive higher-level concepts as patterns.**
+
+| Primitive | Meaning |
+|-----------|---------|
+| entity | Domain object (condition, population) |
+| process | Thing that happens (intervention, mechanism) |
+| artifact | Information entity (outcome, measurement) |
+| comparison | Pairwise contrast (ContrastFrame) |
+| effect | Causal change (direction + magnitude) |
+
+Derived concepts are **queries over primitives**, not new primitives:
+
+| Derived Concept | Composed From |
+|----------------|---------------|
+| TreatmentBenefit | ContrastFrame + positive Effect |
+| SideEffect | Intervention + adverse Outcome |
+| DoseResponse | Intervention + Measurement across doses |
+| MechanismCluster | Interventions sharing a Mechanism edge |
+
+New questions don't require schema changes — they're new query patterns over existing primitives. This is how the IR stays stable as the corpus grows.
+
+---
+
+## 5. Why Graph, Not SQL. Why Graph, Not LLM.
+
+### Graph vs. SQL
+
+SQL handles single-entity lookups. Graphs win when questions cross entity boundaries — which is every interesting question in a knowledge system.
+
+**"What shares a mechanism with X?"**
+SQL: joins across multiple tables, recursive CTEs for sub-mechanisms.
+Graph: start at X, follow `ACTS_VIA`, follow back. Two hops. The query reads like the question.
+
+**"What helps with Y but doesn't cause Z?"**
+SQL: LEFT JOINs to exclude adverse outcomes. Grows ugly with multiple constraints.
+Graph: one `NOT EXISTS` clause per exclusion. Readable. Auditable.
+
+### Graph vs. LLM
+
+An LLM gives you a conclusion. A graph gives you a map you can verify.
+
+| Dimension | LLM | Knowledge Graph |
+|-----------|-----|-----------------|
+| **Completeness** | Frozen training snapshot; can't tell you what it's missing | Contains all extracted claims |
+| **Provenance** | Can't show *why* it believes something | Every claim traces to its source |
+| **Contradictions** | Averages or hedges | Both sides coexist as first-class nodes |
+| **Auditability** | "Trust my paragraph" | "Trace the subgraph yourself" |
+
+The correct answer to a complex knowledge question is not a paragraph. It is a subgraph — a set of typed nodes connected by typed edges, each traceable to a source.
+
+---
+
+## 6. The I-Language Lens
+
+The compiler analogy is primary. But Chomsky's framework [2] provides vocabulary that the compiler tradition lacks.
+
+In Chomsky's Minimalist Program [3], **I-language** (internalized language) is not the grammar rules alone — it is the whole computational system built from exposure to data. The grammar is the spec; the I-language is the instantiated competence.
+
+| Chomsky | Domain Compiler | Why it matters |
+|---|---|---|
+| **Grammar** (formal rules) | Type definitions, edge types, composition rules | What structures are *legal* |
+| **I-language** (internalized system) | Grammar + canonical concepts + populated KG + pipelines | What the system actually *knows* |
+| **Primary linguistic data** | Source corpus | The input from which competence is acquired |
+| **Competence** | What the grammar can express | Valid structures, independent of any execution |
+| **Performance** | What extraction actually produces | Particular executions, subject to LLM errors |
+
+Two systems with identical grammars but different corpora have different I-languages — just as two speakers with the same Universal Grammar but different linguistic exposure have different I-languages.
+
+### I-Language ⊃ Domain IR
+
+The Domain IR is a strict, deterministic subset of the I-language. The I-language includes audience framing, lexical variation, ambiguity, and pragmatic context — dimensions that the IR deliberately discards:
+
+| Dimension | I-Language | Domain IR |
+|-----------|:----------:|:---------:|
+| Ontology (entities, processes) | yes | yes |
+| Causal/evidence structure | yes | yes |
+| Audience framing | yes | no |
+| Lexical variation | yes | no |
+| Ambiguity | yes | no |
+| Pragmatics / context | yes | no |
+
+The IR keeps only what is needed for deterministic execution. Everything else is resolved during semantic parsing (the frontend step). This is why three different audience phrasings collapse to one IR instance.
+
+---
+
+## 7. Grammar vs. Schema
+
+A distinction that matters for system evolution:
+
+A schema is a **serialized structural specification**: fields, types, enums, constraints. A domain grammar is the **generative rule system** from which schemas are derived.
 
 The key difference: **a schema does not expose its own derivation.**
 
 | | Schema | Domain Grammar |
 |---|---|---|
-| **Contains** | Fields, types, enums, constraints | All of schema + dependency chains, ontological categories, composition rules, extension invariants |
+| **Contains** | Fields, types, constraints | All of schema + dependency chains, ontological categories, composition rules, extension invariants |
 | **Generative?** | No — it is a product | Yes — it is an engine |
 | **Evolvable?** | Only by hand | New valid schemas can be derived from it |
 
-The stack: **Grammar creates schemas. Schemas constrain instances. Instances populate the domain.**
+Most organizations build bottom-up: engineer writes schema → schema is opaque → someone writes a data dictionary to translate it back into English. The grammar-first approach is top-down: ontology → domain grammar → schemas are *generated*. Meaning comes first. Structure is derived.
 
-### Why you don't need a data dictionary
-
-Most organizations build bottom-up: engineer writes schema → schema is opaque → someone writes a data dictionary to translate it back into English. The data dictionary is a patch — it retrofits meaning onto structure built without it.
-
-A grammar-first system is top-down: design doc + ontology → domain grammar → schema is *generated*. Meaning comes first. Structure is derived. The grammar *is* the living, executable data dictionary.
+The grammar *is* the living, executable data dictionary.
 
 ---
 
-## 4. The I-Language
+## 8. Entity vs. Process: Why the Split Matters
 
-In Chomsky's framework, **I-language** (internalized language) is the whole computational system built from exposure to data. The grammar is the spec; the I-language is the instantiated competence [1].
+The entity/process distinction (from BFO [1]) gives three engineering rules for free:
 
-In a domain compiler: the grammar defines what structures are legal. The I-language is the grammar *plus* all canonical concepts *plus* the populated knowledge graph *plus* the extraction/query pipelines. Two systems with identical grammars but different corpora have different I-languages.
-
-| Chomsky | Domain Compiler | Why it matters |
-|---|---|---|
-| **Grammar** (formal rules) | Field definitions, vertex/edge types, query patterns | The explicit specification — what structures are legal |
-| **I-language** (internalized system) | Grammar + canonical concepts + KG + pipelines | The operational competence — what the system actually knows |
-| **Primary linguistic data** | Source corpus | The input from which the I-language is acquired |
-| **Competence** | What the grammar can express | Valid structures, independent of any particular execution |
-| **Performance** | What extraction/query actually produces | Particular executions, subject to LLM errors and cost constraints |
-
-The I-language is a cross-cutting surface, not a layer in a stack. It spans both the ETL layer (ingestion) and the query layer (retrieval):
-
-```
-  Source text  ──► text2concept_ir  ──┐
-                                      ├──► Concept IR
-  User question ► query2concept_ir ──┘
-                                           │
-                                ┌──────────┴──────────┐
-                                ▼                      ▼
-                          Query Plan             Graph Patch
-                          (KG read)              (KG write)
-```
-
-Both inputs converge into the **same Concept IR**, then diverge into different executable forms. This symmetry guarantees:
-
-- **Semantic alignment**: questions and answers inhabit the same representational space
-- **Explainability**: every answer traces back through the same IR
-- **Reproducibility**: same input → same Concept IR → same execution
-
-Most RAG systems embed documents and queries into the same vector space but have no shared *semantic* structure. That is why they hallucinate.
-
----
-
-## 5. Ontology: Entity vs. Process vs. Artifact
-
-The ontology layer provides three primitive categories, grounded in BFO (Basic Formal Ontology) [2]:
-
-```
-┌─────────────────────────────────────────────────────────┐
-│  Layer 4: SEMANTIC GRAMMAR                              │
-│  Relations that bind concepts into structured claims     │
-├─────────────────────────────────────────────────────────┤
-│  Layer 3: ARTIFACTS                                     │
-│  What we know — claims about reality                     │
-├─────────────────────────────────────────────────────────┤
-│  Layer 2: PROCESSES                                     │
-│  What happens — things that unfold in time               │
-├─────────────────────────────────────────────────────────┤
-│  Layer 1: ENTITIES                                      │
-│  What exists — things that persist through time          │
-└─────────────────────────────────────────────────────────┘
-```
-
-The core design rule: **model both the handle (entity) and the flux (process), and relate them via participation.**
-
-- An **entity** *persists* — it exists at any point in time you check. "Metformin" exists whether or not anyone is taking it. (BFO: Continuant)
-- A **process** *unfolds* — it has temporal parts, a beginning and end. "Taking metformin 500mg daily for 12 weeks" is a process. (BFO: Occurrent)
-- An **artifact** asserts a relationship between entities and processes, but is neither. Two artifacts can contradict each other and both exist in the graph. (BFO: Information Content Entity)
-
-### Why the split matters: three engineering rules
-
-**Rule 1: Entities can be shared across sources. Processes cannot.**
-Two studies can reference the same intervention node (metformin) and the same condition node (T2D). But the specific dosing course is unique to one study arm. This is what makes cross-source queries work — traversal through shared entity nodes.
-
-**Rule 2: Processes carry temporal structure. Entities don't.**
-If you put "duration: 12 weeks" on an entity node, two sources with different durations can't share the same node. The entity/process split prevents this.
-
-**Rule 3: Artifacts are epistemic — they assert claims, not facts.**
-Two findings can contradict each other and both coexist in the graph. This is epistemic scoping, and it's what makes contradiction detection possible.
-
-### Entity vs. Process in action
-
-Without the split — broken:
+**Rule 1: Entities share across sources. Processes don't.**
 
 ```
 // BAD: temporal detail baked into entity
-(:Intervention {name: "metformin", dose: "2g/day", duration: "24 weeks"})
+(:Intervention {name: "metformin", dose: "2g/day", duration: "24w"})
+
+Two sources with different doses fork into N copies.
+Cross-source queries require fuzzy matching.
 ```
-
-Two sources with different doses fork the entity into N copies. Cross-source queries require fuzzy matching.
-
-With the split — correct:
 
 ```
 // GOOD: entity (shared) + process (per-source)
 (:Intervention {name: "metformin"})
-   ←[:REALIZES]─ (:ExposureCourse {dose: "2g/day", duration: "24w"})   // Source A
-   ←[:REALIZES]─ (:ExposureCourse {dose: "500mg/day", duration: "12w"}) // Source B
+   ←[:REALIZES]─ (:Course {dose: "2g/day",   duration: "24w"})  // Source A
+   ←[:REALIZES]─ (:Course {dose: "500mg/day", duration: "12w"})  // Source B
+
+One entity node. Two process instances.
+All queries traverse through a single shared node.
 ```
 
-One node. Two process instances. All queries traverse through a single shared entity.
+**Rule 2: Processes carry temporal structure. Entities don't.**
+If you put "duration: 12 weeks" on an entity node, two sources with different durations can't share it.
+
+**Rule 3: Artifacts are epistemic — they assert claims, not facts.**
+Two findings can contradict each other and both coexist in the graph. This is what makes contradiction detection possible.
 
 ---
 
-## 6. Why Graph over SQL, Why Graph over LLM
+## 9. Error Taxonomy
 
-### Graph vs. SQL
+Three error categories, mirroring compiler error classes:
 
-SQL handles single-entity lookups. Graphs pull ahead when questions cross entity boundaries — which is every interesting question in a knowledge system.
+| Error Class | Compiler Analog | Example | Caught By |
+|-------------|----------------|---------|-----------|
+| **Syntax error** | Parse error | Missing required field, type mismatch | Schema validation |
+| **Semantic error** | Type error (compiles but wrong) | Labeling an adverse effect as "improvement" | Gold-standard evaluation |
+| **Linking error** | Wrong symbol resolution | "pelvic floor training" → `physical_therapy` instead of `pelvic_floor_training` | Query-level evaluation |
 
-**"What shares a mechanism with X?"**
-SQL: 12 joins across 8 tables, recursive CTEs for sub-mechanism traversal.
-Graph: start at X, follow `ACTS_VIA` to the mechanism node, follow back. Two hops.
+### Where the compiler analogy breaks down
 
-**"What helps with Y but doesn't cause Z?"**
-SQL: LEFT JOIN to exclude adverse-event rows. Grows ugly with multiple exclusion criteria.
-Graph: one `NOT EXISTS` clause per excluded outcome.
+1. **Compilers have deterministic frontends.** Our frontend (LLM extraction) is stochastic. The same source text may produce different IR instances on different runs.
 
-### Graph vs. LLM (ChatGPT)
+2. **Compilers preserve semantics.** A correct compiler guarantees the compiled program means the same as the source. Our system *lossy-compresses* — a long document becomes a handful of structured claims.
 
-An LLM gives you a conclusion. A graph gives you a map you can navigate, verify, and challenge.
+3. **Compilers don't need gold standards.** Compiler correctness is provable. Our system's correctness is empirical — measured against human annotations, not proven by construction.
 
-| | LLM | Graph |
-|---|---|---|
-| **Completeness** | Frozen training snapshot; can't tell you what's missing | Contains all extracted claims |
-| **Provenance** | Can't show *why* it believes something | Every claim traces to source |
-| **Contradictions** | Averages or hedges | Both sides coexist as first-class entities |
-
-```mermaid
-flowchart LR
-  subgraph LLM["LLM Approach"]
-    direction LR
-    Q1[Question] -->|embed| V[Vector Search]
-    V --> D1[Doc A]
-    V --> D2[Doc B]
-    D1 --> L[LLM]
-    D2 --> L
-    L --> A1["Answer: text synthesis<br>(trust me)"]
-  end
-
-  subgraph Graph["Graph Approach"]
-    direction LR
-    Q2[Question] -->|constraints| G[(Knowledge Graph)]
-    G --> I[Entity]
-    I --> M[Mechanism]
-    M --> O1[Outcome: Benefit]
-    M --> O2[Outcome: Harm]
-    O1 --> A2["Answer: subgraph<br>(trace it yourself)"]
-    O2 --> A2
-  end
-
-  style LLM fill:#fdecea,stroke:#c62828
-  style Graph fill:#e8f5e9,stroke:#2e7d32
-```
-
-Three structural advantages:
-
-1. **Auditable precision** — every claim traces to a source node with a real identifier. The citation isn't generated text; it's a node in the graph.
-
-2. **Auditable recall** — the system shows what it considered, what it filtered, and what survived. The user can inspect the query, challenge it, modify it. Try doing that with an embedding similarity search.
-
-3. **Auditable reasoning** — the answer is a subgraph, not text. Every hop is a typed edge. The reasoning path *is* the answer.
+These limitations are fundamental, not incidental. They are why a Domain IR system needs evaluation suites, error taxonomies, and provenance chains — the machinery that compilers get for free from formal language theory.
 
 ---
 
-## 7. Build Principles
+## 10. Build Principles
 
 ### Grammar is discovered, not just defined
 
-The model above is linear (Mission → Grammar → Execution). The actual system is a flywheel:
+The model above is linear (ontology → grammar → schema). The actual system is a flywheel:
 
 ```
 source text → AI extraction → reveals grammar gaps → grammar evolves → re-extraction → re-eval
 ```
 
-Each source document processed is "primary linguistic data" (in the Chomsky sense) that shapes the system's evolving I-language. The grammar specification is never finished — it co-evolves with the corpus.
+Each source document is "primary linguistic data" (in Chomsky's sense) that shapes the system's evolving I-language. The grammar is never finished.
 
 ### Cycle depth and blast radius
 
-Not every cycle mutates the deepest layer. Deeper changes are rarer, slower, and higher-impact:
-
 | Layer | Change frequency | Blast radius |
 |---|---|---|
-| **Prompts / rules / mappings** | Every session | Local |
-| **Schema / artifacts** | Weekly | Moderate — re-derive downstream |
-| **Domain grammar** | Monthly | Large — new extraction + query patterns + evals |
-| **Ontology** | Rarely | Structural — ripples everywhere |
+| Prompts / mappings | Every session | Local |
+| Schema / artifacts | Weekly | Moderate — re-derive downstream |
+| Domain grammar | Monthly | Large — new extraction + query patterns |
+| Ontology | Rarely | Structural — ripples everywhere |
 
-Most improvement is shallow (fix a prompt, add an alias). Deep changes (restructure the grammar, add a new ontology primitive) are rare but transformative.
+Most improvement is shallow (fix a prompt, add an alias). Deep changes (add a new ontology primitive) are rare but transformative.
 
 ### Ambiguity is the main enemy
 
-An LLM reduces ambiguity *probabilistically* — it picks the most likely interpretation and moves on. A domain grammar eliminates ambiguity *formally* or, when elimination is impossible, surfaces it explicitly so the user decides.
-
-Five classes of ambiguity that attack knowledge systems:
-
-| Class | Example | Grammar component that addresses it |
-|---|---|---|
-| **Terminology** | "blood sugar" — fasting glucose, HbA1c, or OGTT? | Vocabulary: canonical entities + surface-form mapping |
-| **Structural** | "X reduced Y" — compared to what? | Ontology: composition requires comparator edge |
-| **Retrieval** | Which candidates were considered? | Compiled queries: deterministic traversal, visible filter logic |
-| **Reasoning path** | Same mechanism ≠ same outcome | Reasoning subgraph: shows shared path AND divergent outcomes |
-| **Answer composition** | Which variant, dose, metric? | Findings IR: each claim is a separate typed node |
-
----
-
-## 8. The Rosetta Stone: Multi-IR Translation
-
-A general-purpose knowledge system sits between multiple source languages and multiple query languages. The knowledge graph is the pivot:
-
-```
-SOURCE IRs                          QUERY IRs
-(each mirrors its source)           (each mirrors the asker)
-
-Source Type A IR ──→                 ←── Audience X IR
-                         ┌──┐
-Source Type B IR ──→  ──→│KG│←──    ←── Audience Y IR
-                         └──┘
-Source Type C IR ──→                 ←── Audience Z IR
-```
-
-**No source knows about any query type. No query type knows about any source. They only know the graph.**
-
-Each source type gets its own extraction IR that mirrors its natural shape. All compile deterministically to the same serving IR. This is the architectural moat.
-
-### The two-IR pattern
-
-| IR | Purpose | Mirrors |
-|---|---|---|
-| **Extraction IR** | How the annotator/model reasons | Source structure |
-| **Serving IR** | What gets output and queried | User queries |
-
-Sources are structured around their native logic, but users ask flat questions. If we extract in user-query shape, we lose structural detail. If we serve in source shape, users can't query it. Two IRs let each layer use its natural shape.
+An LLM reduces ambiguity *probabilistically* — it picks the most likely interpretation. A domain grammar eliminates ambiguity *formally* or, when elimination is impossible, surfaces it explicitly.
 
 ---
 
 ## References
 
-[1] Chomsky, N. (1986). *Knowledge of Language: Its Nature, Origin, and Use*. Praeger. — Introduces the I-language / E-language distinction: I-language is the internalized computational system; E-language is the set of externalizations.
+[1] Arp, R., Smith, B., & Spear, A.D. (2015). *Building Ontologies with Basic Formal Ontology*. MIT Press. — BFO provides the upper ontology: Continuant (entities), Occurrent (processes), Information Content Entity (artifacts).
 
-[2] Arp, R., Smith, B., & Spear, A.D. (2015). *Building Ontologies with Basic Formal Ontology*. MIT Press. — BFO provides the upper ontology: Continuant (entities that persist), Occurrent (processes that unfold), Information Content Entity (artifacts/claims).
+[2] Chomsky, N. (1986). *Knowledge of Language: Its Nature, Origin, and Use*. Praeger. — The I-language / E-language distinction: I-language is the internalized computational system; E-language is the set of externalizations.
 
-[3] Aho, A.V., Lam, M.S., Sethi, R., & Ullman, J.D. (2006). *Compilers: Principles, Techniques, and Tools* (2nd ed.). Addison-Wesley. — The dragon book. Source → IR → executable is the canonical compilation pipeline this architecture adapts.
+[3] Chomsky, N. (1995). *The Minimalist Program*. MIT Press. — Merge as the basic structure-building operation, the competence/performance distinction, the primacy of internal grammar over surface realization.
 
-[4] Chomsky, N. (1995). *The Minimalist Program*. MIT Press. — The framework from which we borrow: merge as the basic structure-building operation, the competence/performance distinction, and the primacy of internal grammar over surface realization.
+[4] Aho, A.V., Lam, M.S., Sethi, R., & Ullman, J.D. (2006). *Compilers: Principles, Techniques, and Tools* (2nd ed.). Addison-Wesley. — The dragon book. Source → IR → executable is the canonical pipeline this architecture adapts.
 
-[5] Robinson, I., Webber, J., & Eifrem, E. (2015). *Graph Databases* (2nd ed.). O'Reilly Media. — The case for graph databases over relational for traversal-heavy queries: identity-preserving nodes, typed edges, variable-length paths.
+[5] Lattner, C. & Adve, V. (2004). "LLVM: A Compilation Framework for Lifelong Program Analysis & Transformation." *CGO '04*. — The many-to-one-to-many IR pattern that this architecture generalizes to knowledge domains.
+
+[6] Rindflesch, T.C. & Fiszman, M. (2003). "The interaction of domain knowledge and linguistic structure in natural language processing." *J Biomed Inform*, 36(6), 462-477. — SemMedDB: subject-predicate-object triples from biomedical text.
+
+[7] Pan, S. et al. (2024). "Unifying Large Language Models and Knowledge Graphs: A Roadmap." arXiv:2306.08302. — Surveys LLM + KG integration as a paradigm distinct from pure LLM or pure KG approaches.
+
+[8] Yih, W. et al. (2015). "Semantic Parsing via Staged Query Graph Generation." *ACL*. — Staged query construction paralleling the question → IR → compiled query pipeline.
+
+[9] Montague, R. (1973). "The Proper Treatment of Quantification in Ordinary English." In *Approaches to Natural Language*. — Composing meaning from parts via formal grammar. A more precise analogy than Chomsky's I-language for what composition rules actually do.

@@ -2,12 +2,6 @@
 
 ---
 
-## Papers
-
 | # | Title | Topic |
 |---|-------|-------|
-| 1 | [Domain Grammar as Compiler Architecture for Knowledge Systems](domain-grammar-compiler.md) | Domain grammars, knowledge graphs, Chomsky's I-language, compiler IR design |
-
----
-
-*More papers coming soon.*
+| 1 | [Domain IR: A Compiler Architecture for Knowledge Systems](domain-grammar-compiler.md) | LLVM-style IR for knowledge graphs, Chomsky's I-language, BFO ontology, grammar-first design |
