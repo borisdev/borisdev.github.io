@@ -30,10 +30,13 @@ flowchart LR
         S3["Expert annotations"]
     end
 
-    subgraph IR["Domain IR"]
+    subgraph ILang["I-Language"]
         direction TB
-        T["Types"] ~~~ O["Operations"]
-        R["Rules"] ~~~ L["Lexicon"]
+        LEX1["Lexicon<br>(canonicalization)"]
+        subgraph IR["Domain IR"]
+            direction TB
+            T["Types"] ~~~ O["Operations<br>(relations + composition rules)"]
+        end
     end
 
     subgraph Backends["Many execution targets"]
@@ -42,13 +45,14 @@ flowchart LR
         B3["Structured answers"]
     end
 
-    S1 --> IR
-    S2 --> IR
-    S3 --> IR
-    IR --> B1
-    IR --> B2
-    IR --> B3
+    S1 --> ILang
+    S2 --> ILang
+    S3 --> ILang
+    ILang --> B1
+    ILang --> B2
+    ILang --> B3
 
+    style ILang fill:#f3e5f5,stroke:#9c27b0,stroke-width:2px,stroke-dasharray: 5 5
     style IR fill:#ede7f6,stroke:#5e35b1,stroke-width:2px
     style Frontends fill:#e3f2fd,stroke:#1565c0
     style Backends fill:#e8f5e9,stroke:#2e7d32
@@ -150,9 +154,10 @@ flowchart TD
     QP --> IL
 
     subgraph IL["Chomsky's I-Language"]
+        LEX["Lexicon<br>(canonicalization)"]
         subgraph CIR["CANONICAL SEMANTIC LAYER — Domain IR"]
             direction LR
-            types["types"] ~~~ ops["operations"] ~~~ rules["rules"] ~~~ lex["lexicon"]
+            types["types"] ~~~ ops["operations"] ~~~ rules["rules"]
         end
     end
 
