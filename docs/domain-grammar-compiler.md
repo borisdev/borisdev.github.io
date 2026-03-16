@@ -142,7 +142,7 @@ The lexicon sits outside the IR but inside the I-Language. It maps surface forms
 
 ---
 
-## 3. The Knowledge Graph Is a Compiled Program
+## 3. The Knowledge Graph
 
 The knowledge graph is not the IR. It is the **compiled output** — the execution-ready representation built from validated IR instances.
 
