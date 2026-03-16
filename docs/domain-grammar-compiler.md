@@ -1,4 +1,4 @@
-# Domain IR: A Compiler Architecture for Knowledge Systems
+# Beyond RAG: How Chomsky's I-Language and Compiler Design Converge on Knowledge Graphs
 
 **Boris Dev** | March 2026
 

@@ -38,4 +38,4 @@ markdown_extensions:
 
 nav:
   - Home: index.md
-  - "Domain IR: A Compiler Architecture for Knowledge Systems": domain-grammar-compiler.md
+  - "Beyond RAG: Chomsky's I-Language Meets Compiler Design": domain-grammar-compiler.md
