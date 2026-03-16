@@ -34,8 +34,8 @@ flowchart LR
         direction TB
         LEX1["Lexicon<br>(canonicalization)"]
         subgraph IR["Domain IR"]
-            direction TB
-            T["Types"] ~~~ O["Operations<br>(relations + composition rules)"]
+            direction LR
+            T["Types"] ~~~ O["Operations"] ~~~ R["Rules"]
         end
     end
 
@@ -61,7 +61,8 @@ flowchart LR
 | Layer | LLVM | Domain Knowledge System |
 |-------|------|-------------------------|
 | Frontend | C, Rust, Swift parsers | LLM extraction, query parsing |
-| IR | LLVM IR | Domain IR (types + operations + rules + lexicon) |
+| IR | LLVM IR | Domain IR (types + operations + rules) |
+| Symbol table | Linker symbol resolution | Lexicon / canonicalization (I-Language layer) |
 | Backend | x86, ARM code generators | Graph compiler, query generator, evidence views |
 
 The critical property: **all inputs and all outputs compile through the same IR**. Three different users can ask the same question in three different ways:
@@ -83,16 +84,16 @@ The surface language varies. The semantics don't. That is the key.
 
 ---
 
-## 2. Domain IR Components
+## 2. I-Language and Domain IR Components
 
-The IR has four components, each with a direct compiler analogy:
+The I-Language has four components. Three belong to the **Domain IR** (the deterministic core), and one — the **lexicon** — sits outside the IR but inside the I-Language, resolving surface variation before the IR ever sees it.
 
-| Component | Role | Compiler Analogy |
-|-----------|------|------------------|
-| **Primitive types** | Entities and processes | Type system |
-| **Operations** | Relations between types | Opcodes |
-| **Composition rules** | Valid semantic structures | Type rules |
-| **Concept lexicon** | Canonicalized vocabulary | Symbol table |
+| Component | Layer | Role | Compiler Analogy |
+|-----------|-------|------|------------------|
+| **Primitive types** | Domain IR | Entities and processes | Type system |
+| **Operations** | Domain IR | Relations between types | Opcodes |
+| **Composition rules** | Domain IR | Valid semantic structures | Type rules |
+| **Concept lexicon** | I-Language | Canonicalized vocabulary | Symbol table |
 
 ### Primitive types
 
@@ -128,9 +129,9 @@ Enforced by schema validation — an invalid structure is a type error:
 | An Effect requires a measurement | Effects must reference measurements |
 | A ContrastFrame requires intervention + comparator + outcome | Pairwise comparison |
 
-### Concept lexicon
+### Concept lexicon (I-Language layer)
 
-Maps surface forms to canonical concepts, aligned to standard vocabularies:
+The lexicon sits outside the IR but inside the I-Language. It maps surface forms to canonical concepts before the IR sees them — resolving the linguistic variation that the IR deliberately cannot represent:
 
 | Surface Forms | Canonical | Ontology |
 |---------------|-----------|----------|
@@ -157,12 +158,12 @@ flowchart TD
         LEX["Lexicon<br>(canonicalization)"]
         subgraph CIR["CANONICAL SEMANTIC LAYER — Domain IR"]
             direction LR
-            types["types"] ~~~ ops["operations"] ~~~ rules["rules"]
+            types["Types"] ~~~ ops["Operations"] ~~~ rules["Rules"]
         end
     end
 
-    CIR --> GC["Graph Compilation<br>(backend)"]
-    CIR --> QG["Query Generation<br>(backend)"]
+    IL --> GC["Graph Compilation<br>(backend)"]
+    IL --> QG["Query Generation<br>(backend)"]
 
     GC --> KG["Knowledge Graph"]
     QG --> KG
