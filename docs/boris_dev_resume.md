@@ -14,6 +14,22 @@ San Francisco • boris.dev@gmail.com • [github](https://github.com/borisdev) 
 
 ## Common pattern
 
+An **intermediate representation (IR)** is a structured, typed model of the domain — the canonical layer where every messy natural-language input and every downstream action meet. Borrowed from compiler design: many source languages compile to one IR, then one IR compiles to many targets. Same shape here.
+
+```mermaid
+flowchart LR
+    I1["Medical papers"] --> IR
+    I2["User questions"] --> IR
+    I3["Expert dialog"] --> IR
+    I4["Supplier emails"] --> IR
+    IR["Domain IR<br>(types + operations + rules)"] --> O1["Graph queries"]
+    IR --> O2["Reports"]
+    IR --> O3["Prompt schemas"]
+    style IR fill:#ede7f6,stroke:#5e35b1,stroke-width:2px
+```
+
+Why it matters: without an IR, every new input format and every new output channel is a bespoke prompt-engineering problem. With an IR, the domain knowledge lives in one place — and quality work is knowledge engineering, not prompt tuning.
+
 Across legal billing, narrative gaming, clinical evidence, supplier non-conformance, and geographic inequality, the same three steps recur:
 
 1. **Decompose expertise into an IR.** Through dialog with domain experts, decompose their nuanced judgments into a structured intermediate representation — an ontology, DSL, or schema.
