@@ -4,6 +4,16 @@
 
 ---
 
+## What is an IR?
+
+An **intermediate representation (IR)** is a typed, structured model that sits between source inputs and execution targets. In compilers, one IR lets many source languages (C, Rust, Swift) target many backends (x86, ARM, GPU). The IR carries the meaning; everything around it is translation.
+
+The same shape carries to LLM-driven knowledge systems. Many natural-language inputs — papers, user questions, expert annotations — translate into one IR. One IR drives many outputs: graph queries, structured reports, evidence views. The LLM handles the messy translation at the edges. The IR holds the domain semantics.
+
+This paper is about designing such an IR for knowledge work.
+
+---
+
 ## Abstract
 
 Most AI knowledge systems are RAG pipelines: embed documents, retrieve by similarity, generate text. They work until you need *auditable reasoning* — provenance, contradiction detection, cross-source inference.
