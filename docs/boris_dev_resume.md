@@ -20,8 +20,6 @@ Across legal billing, narrative gaming, clinical evidence, supplier non-conforma
 2. **Compile messy artifacts to the IR.** Use an LLM to translate natural-language inputs (medical papers, user questions, supplier non-conformance emails) into the IR.
 3. **Compile the IR to action.** Use the IR to generate flat prompt schemas that drive semantic parsing, report generation, and graph queries (match, expand, merge).
 
-The IR carries the domain knowledge. Model size is secondary.
-
 ## Stack
 
 - **AI / LLM:** DSPy, LangGraph, LangSmith, MCP, Pydantic, Jinja, Neo4j (GraphRAG), Azure Search (BM25)
