@@ -26,7 +26,7 @@ Some things do not change with LLMs. The root problem is still that you need to 
 
 What changes is *who does steps 1–3* and *how fast they can do them*.
 
-## Why human annotation produces garbage output
+## Why human annotation often produces low-quality output
 
 The purpose of human annotators is to scale your expert in order to train the model faster. The problem is that it is not trivial to transfer the mental model of your expert to the human annotators. The lag between giving annotators new guidance and seeing whether it improved model performance is long, and the signal at the end is noisy. By the time you discover the rubric was wrong, you have paid for thousands of mislabeled examples.
 

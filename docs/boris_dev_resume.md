@@ -56,12 +56,12 @@ Sindri is an early-stage startup applying AI to document management for large en
 Built the team's first AI evaluation framework, replacing manual QC with automated checks for Temporal workflow runs.
 
 - Designed an SME-authored YAML expectations DSL (pre-run scenarios + post-run predicates) so domain experts — not just engineers — could specify what "correct" looks like for a Temporal workflow run
-- Built a Temporal-aware test harness that snapshots post-run database side effects and activity outputs, then evaluates each expectation — became the team's foundational CI/CD for iterating on Temporal modules
+- Built a Temporal-aware test harness that snapshots post-run database side effects and activity outputs, then evaluates each expectation — adopted as the team's core CI/CD harness for iterating on Temporal modules
 - Built an LLM-as-judge pipeline that scores candidate prompts against synthetic test batches and emits a structured fault taxonomy (top faults, rationale, proposed prompt edits) to drive iteration
 
 ### Nobsmed, 2024 - current, Founder
 
-[Nobsmed](https://nobsmed.com/) connects ChatGPT and Claude to clinical-trial findings that match a user's specific situation. Addresses the evidence-to-person fit problem: e.g., a statin trial that excluded pregnant women being misapplied to someone trying to conceive.
+[Nobsmed](https://nobsmed.com/) connects ChatGPT and Claude to clinical-trial findings that match a user's specific situation. Addresses the evidence-to-person fit problem: e.g., a statin trial that excluded pregnant women being misapplied to someone trying to conceive. *For research and exploration; not medical advice.*
 
 - Modeled a PICO-style ontology in Pydantic (`ParticipantGroup`, `StudyArm`, `OutcomeVariable`, with cross-reference integrity validators — defined once at paper level, referenced by id) and built it as a Neo4j knowledge graph queried with Cypher
 - Exposed the graph as an MCP server (tools: `ask`, `decompose`, `resolve`, `evidence`, `filter_by_pertinence`, `concept_hierarchy`, `similar_concepts`) so agents compose multi-step graph queries — ontology-grounded GraphRAG, not vector-only retrieval
@@ -86,14 +86,14 @@ SimpleLegal is a legal billing analytics company.
 
 - Identified a poorly specified rubric as the root cause of low model quality on a stuck feature
 - Designed a collaborative process for paralegals and lawyers to debate edge cases, build consensus, and elicit the nuanced expertise needed to refactor the rubric
-- Built a quality-control annotation pipeline around the new rubric --> massive increase in training example quality and the launch of the previously stuck feature
+- Built a quality-control annotation pipeline around the new rubric → improved training example quality enough to unblock the launch of the previously stuck feature
 - Deployed a PyTorch Small Language Model on SageMaker and the ML client into the Flask product app
 
 ### Lead Analytic Endpoint Engineer at Sight Machine, 2018-2021
 
 Sight Machine is a manufacturing analytics company.
 
-- Built the backend engineering on biggest public facing analytic feature 
+- Built the backend engineering for a major public-facing analytic feature
 - Implemented a pre-demo protocol between product and engineering --> less panic before each sales demo 
 - Coordinated QA process with sales and engineering --> better prioritization/triage
 - Built company's first distributed tracing --> simpler firefighting for mid-level developers
@@ -121,7 +121,7 @@ Urban Mapping provided geospatial analytics to Tableau.
 
 - Reduced Tableau customer complaints by building end-to-end regression tests for the top 100 geospatial queries, the company's first observability system, and CI/CD pre-commit performance gates
 - Migrated a data science ETL monolith to microservices, reducing firefighting
-- Revived a stuck AI feature by shifting the team's focus from training data quantity to quality
+- Helped unblock a stalled AI feature by shifting the team's focus from training-data quantity to rubric quality
 - Built a gaming company's first murder mystery story generator by chaining prompts to force consistency ([post](https://ai.google.dev/showcase/wolfgames)).
 
 | **Papers & code** | **Non-tech fun** |
