@@ -42,5 +42,6 @@ nav:
   - "What Is Knowledge Engineering, Really?": knowledge-engineering.md
   - "Fine-Tuning LLMs Will Restructure Your Data Science Team": fine-tuning-restructures-data-science.md
   - "Why Domain-Specific Language AI Features Fail": domain-specific-language-ai.md
+  - "Language AI Evaluation 101: Know Your User": language-ai-evaluation-101.md
   - "Hyper-Local Community Funding: A DAO Alternative to CDFIs": hyperlocal-community-funding.md
   - "CV: Knowledge Engineering in Messy Domains": boris_dev_resume.md
