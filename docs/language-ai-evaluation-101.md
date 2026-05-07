@@ -14,11 +14,50 @@ A language AI application can be a liability to your customer if it makes just a
 
 Imagine a Mom whose children text her hundreds of questions every day. Your job is to build her a language AI app that reduces her toil. You start by building a Ground Truth dataset of example correct responses. This Ground Truth is key to evaluating your future AI's prediction performance.
 
-**Iteration 1's Ground Truth.** The problem with this initial set of examples is that all of them depend on rationales that are overly simplistic. After training the model on these examples, evaluation against a test set drawn from the same simplistic distribution yields a 100% accuracy metric. That metric is misleading.
+**Table 1: Iteration 1's Ground Truth**
 
-To make a more rigorous evaluation, we need to discover more nuanced examples — questions whose correct response depends on context, priority, or risk that the simplistic rationales don't capture.
+| child's question | Mom's response | rationale |
+|---|---|---|
+| Should I clean my toys? | Yes | Prioritize cleaning up. |
+| Should I run across the busy street? | No | Prioritize safety. |
+| Should I go to school? | Yes | Prioritize schooling. |
 
-**Iteration 2's Ground Truth.** Adding nuanced examples depends on *cognitive empathy* — sitting with the customer and discovering the implicit principles she actually uses. When we re-evaluate the same model against this richer test set, the accuracy drops to 0%.
+The problem with this initial Ground Truth is that all its examples depend on rationales that are overly simplistic. After training the model on these examples, we evaluate its performance.
+
+**Table 2: Evaluation result with Iteration 1's Ground Truth**
+
+| child's question | AI's response | rationale |
+|---|---|---|
+| Should I clean my room? | Yes (correct answer) | Prioritize cleaning up. |
+| Can I ride the motorcycle? | No (correct answer) | Prioritize safety. |
+| Should I go to math class? | Yes (correct answer) | Prioritize schooling. |
+
+Evaluation using Table 2's result leads to a 100% accuracy metric. Next, we illustrate why this metric is misleading.
+
+To make a more rigorous evaluation, we need to discover more nuanced examples. Look at the bottom three examples in the next iteration of our Ground Truth in Table 3.
+
+**Table 3: Iteration 2's Ground Truth**
+
+| child's question | Mom's response | rationale |
+|---|---|---|
+| Should I clean my toys? | Yes | Prioritize cleaning up. |
+| Should I run across the busy street? | No | Prioritize safety. |
+| Should I go to school? | Yes | Prioritize schooling. |
+| Should I clean my toys over catching the school bus? | No | Prioritize school over cleaning. |
+| Should I do ski jump training at ski school? | Yes | It's safest to learn risky stuff at school. |
+| Should I go to school with Covid-19? | No | Prioritize not harming over school. |
+
+Notice how these examples map to more nuanced rationales than existed in the initial Ground Truth. Discovering them depends on *cognitive empathy*. The next table illustrates that using more complex questions demanding more nuanced rationales results in a more rigorous evaluation.
+
+**Table 4: Evaluation result with Iteration 2's Ground Truth**
+
+| child's question | AI's response | simplistic rationale |
+|---|---|---|
+| Should I clean my toys over catching the school bus? | Yes (wrong answer) | Prioritize cleaning up |
+| Should I do ski jump training at ski school? | No (wrong answer) | Prioritize safety |
+| Should I go to school with Covid-19? | Yes (wrong answer) | Prioritize schooling |
+
+Evaluation using Table 4's result leads to a 0% accuracy metric — the opposite of the 100% from Table 2.
 
 The lesson is twofold:
 
