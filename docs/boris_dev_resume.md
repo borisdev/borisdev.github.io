@@ -5,18 +5,22 @@ geometry: "left=1.5cm,right=1.5cm,top=1.5cm,bottom=1.5cm"
 output: pdf_document
 ---
 
-# Knowledge Engineering in Messy Domains: A Practitioner's Record
+# CV: Knowledge Engineering in Messy Domains
 
 **Boris Dev** — AI Engineer
 San Francisco • boris.dev@gmail.com • [github](https://github.com/borisdev) • [linkedin](https://linkedin.com/in/boris-dev/)
 
-*Knowledge graphs • AI quality evaluation • Eliciting nuanced ground-truth from domain experts*
-
-## Abstract
-
-A practitioner's record of knowledge engineering across clinical trials, legal billing, maritime construction, manufacturing analytics, and narrative gaming. The common problem in each domain: domain experts hold nuanced, often contested judgments that don't survive translation into vague rubrics or vector similarity. The common method: elicit ground-truth from those experts, encode it as structured ontologies, expectations DSLs, or evaluation rubrics, and let that structure drive both retrieval and quality measurement. Quality comes from knowledge engineering, not bigger models.
-
 [Download PDF](boris_dev_resume.pdf)
+
+## Common pattern
+
+Across legal billing, narrative gaming, clinical evidence, supplier non-conformance, and geographic inequality, the same three steps recur:
+
+1. **Decompose expertise into an IR.** Through dialog with domain experts, decompose their nuanced judgments into a structured intermediate representation — an ontology, DSL, or schema.
+2. **Compile messy artifacts to the IR.** Use an LLM to translate natural-language inputs (medical papers, user questions, supplier non-conformance emails) into the IR.
+3. **Compile the IR to action.** Use the IR to generate flat prompt schemas that drive semantic parsing, report generation, and graph queries (match, expand, merge).
+
+The IR carries the domain knowledge. Model size is secondary.
 
 ## Stack
 
@@ -27,7 +31,7 @@ A practitioner's record of knowledge engineering across clinical trials, legal b
 
 ## Education
 
-PhD in Quantitative Human Geography at SDSU and UCSB, 2015. Data science for location referenced social science problems. Dissertation: [New Metrics for Assessing Inequality using Geographic Data](https://escholarship.org/content/qt8br7d5df/qt8br7d5df.pdf)
+PhD in Quantitative Human Geography, SDSU and UCSB, 2015. Dissertation: [New Metrics for Assessing Inequality using Geographic Data](https://escholarship.org/content/qt8br7d5df/qt8br7d5df.pdf) — an early instance of the same pattern: decompose a contested concept (inequality) into a structured representation, then compile messy geographic data against it.
 
 ## Experience
 
@@ -35,7 +39,7 @@ PhD in Quantitative Human Geography at SDSU and UCSB, 2015. Data science for loc
 
 Sindri is an early-stage startup applying AI to document management for large energy-industry construction projects.
 
-Built the team's first AI evaluation framework, replacing engineer-driven manual QC/QA with automated checks and unblocking high-stakes customer demos by lifting AI email quality.
+Built the team's first AI evaluation framework, replacing manual QC with automated checks for Temporal workflow runs.
 
 - Designed an SME-authored YAML expectations DSL (pre-run scenarios + post-run predicates) so domain experts — not just engineers — could specify what "correct" looks like for a Temporal workflow run
 - Built a Temporal-aware test harness that snapshots post-run database side effects and activity outputs, then evaluates each expectation — became the team's foundational CI/CD for iterating on Temporal modules
@@ -43,7 +47,7 @@ Built the team's first AI evaluation framework, replacing engineer-driven manual
 
 ### Nobsmed, 2024 - current, Founder
 
-[Nobsmed](https://nobsmed.com/) connects ChatGPT and Claude to clinical-trial findings that fit a user's specific situation — an auditable evidence layer addressing the "evidence-to-person fit" problem (e.g., a statin trial that excluded pregnant women being mis-applied to someone trying to conceive).
+[Nobsmed](https://nobsmed.com/) connects ChatGPT and Claude to clinical-trial findings that match a user's specific situation. Addresses the evidence-to-person fit problem: e.g., a statin trial that excluded pregnant women being misapplied to someone trying to conceive.
 
 - Modeled a PICO-style ontology in Pydantic (`ParticipantGroup`, `StudyArm`, `OutcomeVariable`, with cross-reference integrity validators — defined once at paper level, referenced by id) and built it as a Neo4j knowledge graph queried with Cypher
 - Exposed the graph as an MCP server (tools: `ask`, `decompose`, `resolve`, `evidence`, `filter_by_pertinence`, `concept_hierarchy`, `similar_concepts`) so agents compose multi-step graph queries — ontology-grounded GraphRAG, not vector-only retrieval

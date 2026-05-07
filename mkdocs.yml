@@ -39,4 +39,4 @@ markdown_extensions:
 nav:
   - Home: index.md
   - "Beyond RAG: Chomsky's I-Language Meets Compiler Design": domain-grammar-compiler.md
-  - "Knowledge Engineering in Messy Domains: A Practitioner's Record": boris_dev_resume.md
+  - "CV: Knowledge Engineering in Messy Domains": boris_dev_resume.md
