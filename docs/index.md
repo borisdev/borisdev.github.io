@@ -1,6 +1,6 @@
 # Writing
 
-I'm Boris Dev, an AI engineer working on knowledge engineering in messy domains — clinical evidence, legal billing, narrative gaming, manufacturing analytics. Below are essays on the patterns I've seen recur. CV at the bottom.
+I'm Boris Dev, an AI engineer working on knowledge engineering in messy domains — clinical evidence, legal billing, narrative gaming, manufacturing analytics. Below are essays on the patterns I've seen recur. Some are primarily a way to organize my own learning; I'm not an expert in everything I write about — especially the compiler-design piece. CV at the bottom.
 
 | # | Title | Topic |
 |---|-------|-------|
