@@ -1,5 +1,5 @@
 site_name: Boris Dev
-site_url: https://borisdev.github.io/
+site_url: https://borisdev.dev/
 
 theme:
   name: material
@@ -39,3 +39,4 @@ markdown_extensions:
 nav:
   - Home: index.md
   - "Beyond RAG: Chomsky's I-Language Meets Compiler Design": domain-grammar-compiler.md
+  - "Knowledge Engineering in Messy Domains: A Practitioner's Record": boris_dev_resume.md
