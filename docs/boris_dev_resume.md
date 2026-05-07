@@ -32,7 +32,7 @@ Why it matters: without an IR, every new input format and every new output chann
 
 Across legal billing, narrative gaming, clinical evidence, supplier non-conformance, and geographic inequality, the same three steps recur:
 
-1. **Decompose expertise into an IR.** Through dialog with domain experts, decompose their nuanced judgments into a structured intermediate representation — an ontology, DSL, or schema.
+1. **Decompose expertise into an IR.** Through dialog with domain experts, decompose their nuanced judgments into a structured intermediate representation — an ontology, DSL, or schema. *(My favorite step — see [Language AI Evaluation 101](language-ai-evaluation-101.md) for a worked example.)*
 2. **Compile messy artifacts to the IR.** Use an LLM to translate natural-language inputs (medical papers, user questions, supplier non-conformance emails) into the IR.
 3. **Compile the IR to action.** Use the IR to generate flat prompt schemas that drive semantic parsing, report generation, and graph queries (match, expand, merge).
 
