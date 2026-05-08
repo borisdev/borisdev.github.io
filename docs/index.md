@@ -7,6 +7,11 @@ description: Essays on intermediate representations, evaluation, and the IR-comp
 
 I'm Boris Dev, an AI engineer working on knowledge engineering in messy domains — clinical evidence, legal billing, narrative gaming, manufacturing analytics. Below are essays on the patterns I've seen recur. Some are primarily a way to organize my own learning; I'm not an expert in everything I write about — especially the compiler-design piece. CV at the bottom.
 
+**Elsewhere:**
+
+- [Nobsmed blog](https://nobsmed.com/blog) — work-in-progress notes on clinical-evidence retrieval and personalized trial matching
+- [fhir-evidence-eval](https://github.com/borisdev/fhir-evidence-eval) — open evals for whether Medical AI preserves granular trial distinctions when matching evidence to a patient
+
 | # | Title | Topic |
 |---|-------|-------|
 | 1 | [Beyond RAG: How Chomsky's I-Language and Compiler Design Converge on Knowledge Graphs](domain-grammar-compiler.md) | LLVM-style IR, Chomsky's I-language, BFO ontology, grammar-first design |
