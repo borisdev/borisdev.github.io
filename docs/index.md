@@ -9,7 +9,10 @@ I'm Boris Dev, an AI engineer working on knowledge engineering in messy domains 
 
 **Elsewhere:**
 
-- [Nobsmed blog](https://nobsmed.com/blog) — work-in-progress notes on clinical-evidence retrieval and personalized trial matching
+- [Nobsmed blog](https://nobsmed.com/blog) — work-in-progress notes on clinical-evidence retrieval and personalized trial matching:
+    - [The Evidence-to-Person Fit Problem](https://nobsmed.com/blog/evidence-to-person-fit)
+    - [The Medical AI Landscape](https://nobsmed.com/blog/medical-ai-landscape)
+    - [Medical AI Developer Tooling](https://nobsmed.com/blog/medical-ai-developer-tooling)
 - [fhir-evidence-eval](https://github.com/borisdev/fhir-evidence-eval) — open evals for whether Medical AI preserves granular trial distinctions when matching evidence to a patient
 
 | # | Title | Topic |
