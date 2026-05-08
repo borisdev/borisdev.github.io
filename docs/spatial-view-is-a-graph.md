@@ -74,18 +74,6 @@ The dissertation's conclusion makes the methodological point that has stayed wit
 
 Every aggregate metric implicitly weights pairs of places — and "weight them all equally" is itself a strong assumption, not a neutral default. When the spatial view is hidden inside the formula, the assumption stops being visible. Writing **W** down explicitly makes it available for argument.
 
-## Connection to the rest of the site
-
-The dissertation's "spatial view = graph" maps onto the same move I keep making in [the IR-compile pattern](boris_dev_resume.md#common-pattern):
-
-| Flattened | Relational |
-|---|---|
-| Variance / Gini over place values | Spatial weights **W** + values |
-| Vector embedding similarity | Knowledge graph + typed edges |
-| RAG-style flat retrieval | IR-compiled queries against typed nodes |
-
-Each right-hand column keeps the *which-pairs-matter* information that the left flattens away. And in both cases, you can compute the same global summaries — just over a richer local structure that lets the answer change when the structure does. The argument is the same in 2014 inequality measurement and in 2026 LLM knowledge systems: domains that look alike at the value level can differ sharply once you put the relational structure back in.
-
 ---
 
 *Full dissertation: [Assessing Inequality using Geographic Income Distributions](https://escholarship.org/content/qt8br7d5df/qt8br7d5df.pdf), UC Santa Barbara and San Diego State University, 2014. Committee: Sergio Rey (chair), Arthur Getis, Stuart Sweeney, David Carr.*
