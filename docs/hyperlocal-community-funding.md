@@ -1,3 +1,7 @@
+---
+description: Local digital tokens and DAOs as a delivery mechanism for under-served-neighborhood capital, as an alternative to the CDFI model.
+---
+
 # Hyper-local community funding: an alternative to the CDFI model
 
 *A sketch for distributing capital to under-served neighborhoods using local digital currencies and DAOs instead of traditional Community Development Financial Institutions.*

@@ -1,3 +1,7 @@
+---
+description: How fine-tuned LLMs can reduce reliance on annotation pipelines and the NN-optimization role; the rise of the fine-tuning analyst.
+---
+
 # Fine-tuning LLMs will restructure your data science team
 
 *How fine-tuned LLMs can replace human annotation pipelines and the NN-optimization role — and what the new team looks like.*

@@ -1,3 +1,7 @@
+---
+description: Why simplistic Ground Truth produces misleading accuracy metrics; cognitive empathy as the iteration loop for evaluating language AI.
+---
+
 # Language AI Evaluation 101: Know Your User
 
 *Originally published on [Medium](https://medium.com/@boris.dev/why-did-your-language-ai-feature-fail-66a280954287), Mar 20, 2023. Co-authors: Robert McKee and Shawn Larson.*

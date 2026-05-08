@@ -1,3 +1,7 @@
+---
+description: Treating domain knowledge extraction as a compilation problem. LLVM's many-to-one-to-many IR pattern, Chomsky's I-language, and BFO ontology converge on a grammar-first design for knowledge graphs.
+---
+
 # Beyond RAG: How Chomsky's I-Language and Compiler Design Converge on Knowledge Graphs
 
 **Boris Dev** | March 2026

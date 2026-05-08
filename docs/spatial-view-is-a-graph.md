@@ -1,3 +1,7 @@
+---
+description: A note from my 2014 dissertation. The "spatial view" of inequality is a graph; Rawls and Sen show why aggregate metrics smuggle in moral commitments.
+---
+
 # Inequality Without a Spatial View
 
 *A note drawn from my 2014 dissertation, [Assessing Inequality using Geographic Income Distributions](https://escholarship.org/content/qt8br7d5df/qt8br7d5df.pdf) (UC Santa Barbara / SDSU). I'm including it here because the dissertation's "spatial view" is, in modern terms, a graph representation. The same move — keep the relational structure, don't flatten it — recurs in the knowledge-engineering work on the rest of this site.*

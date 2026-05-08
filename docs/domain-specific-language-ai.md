@@ -1,3 +1,7 @@
+---
+description: The customer-discovery process for niche language AI, and why a Lean Startup approach is required to avoid waterfall failures.
+---
+
 # What makes launching a domain-specific language AI feature especially difficult?
 
 *For CTOs and product managers wondering why their domain-specific language AI feature is underperforming.*

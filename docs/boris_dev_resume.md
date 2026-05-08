@@ -3,6 +3,7 @@ colorlinks: true
 date: May 22, 2025
 geometry: "left=1.5cm,right=1.5cm,top=1.5cm,bottom=1.5cm"
 output: pdf_document
+description: CV of Boris Dev, AI engineer. The IR-compile pattern across clinical trials, legal billing, maritime construction, narrative gaming, and geographic inequality.
 ---
 
 # CV: Knowledge Engineering in Messy Domains

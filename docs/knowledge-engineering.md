@@ -1,3 +1,7 @@
+---
+description: A working definition of knowledge engineering, built around elicitation, evaluation, and 0-to-1 modeling in messy niche domains.
+---
+
 # What is knowledge engineering, really?
 
 *A working definition, framed around three questions, with examples drawn from a decade of building software in messy niche domains.*
