@@ -1,11 +1,11 @@
 ---
-title: Boris Dev — AI Engineer, Knowledge Engineering in Messy Domains
-description: Essays on intermediate representations, evaluation, and the IR-compile pattern across clinical evidence, legal billing, narrative gaming, manufacturing analytics, and geographic inequality.
+title: Boris Dev — Knowledge Engineer in Messy Domains
+description: Essays on intermediate representations, evaluation, and the IR-compile pattern across clinical evidence, legal billing, narrative gaming, manufacturing analytics, and human geography.
 ---
 
 ## About me
 
-I'm Boris Dev, an AI engineer working on knowledge engineering in messy domains — clinical evidence, legal billing, narrative gaming, manufacturing analytics. CV at the bottom.
+I'm Boris Dev, a Knowledge Engineer working in messy domains — clinical evidence, legal billing, narrative gaming, manufacturing analytics, and human geography. CV at the bottom.
 
 ## Elsewhere
 
