@@ -1,27 +1,34 @@
 ---
-description: A note from my 2014 dissertation. The "spatial view" of inequality is a graph; Rawls and Sen show why aggregate metrics smuggle in moral commitments.
+description: A note from my 2014 dissertation. The same income data can read as inequality going down or up depending on whether you keep the spatial structure. A spatial view is a graph.
 ---
 
-# Inequality Without a Spatial View
+# Inequality with a Spatial View
 
 *A note drawn from my 2014 dissertation, [Assessing Inequality using Geographic Income Distributions](https://escholarship.org/content/qt8br7d5df/qt8br7d5df.pdf) (UC Santa Barbara / SDSU). I'm including it here because the dissertation's "spatial view" is, in modern terms, a graph representation. The same move — keep the relational structure, don't flatten it — recurs in the knowledge-engineering work on the rest of this site.*
 
-## Same numbers, different worlds
+## Same numbers, two opposite verdicts
 
-Standard inequality metrics — variance, the Gini coefficient — implicitly weight every pair of places the same. That's a hidden assumption, and it can hide what matters.
+Standard inequality metrics — variance, the Gini coefficient — implicitly weight every pair of places the same. That hidden assumption can flip the answer.
 
 ![Figure 1.1: Hypothetical distribution change over time, aspatial view](img/diss-fig-1-1-aspatial.png)
 
-Four places (i, j, k, l). At time 1, one is rich, three are poor. At time 2, two are rich, two are poor. Both situations look like roughly the same kind of inequality.
+**Aspatial view.** Four places (i, j, k, l). At time 1, one is rich, three are poor. At time 2, two are rich, two are poor. Most readers would say inequality went **down**: the gap is smaller, more people are near the top.
 
 Now look at the same change with the geographic labels restored:
 
 ![Figure 1.2: Hypothetical distribution change over time, spatial view](img/diss-fig-1-2-spatial.png)
 
+**Spatial view.** Same incomes — but now we can see *where* the rich and the poor are.
+
+- In the **North**, *j* and *k* were both poor at time 1. By time 2, *j* has become rich; *k* stayed poor. A new rich-poor gap opened up *inside* the region.
+- In the **South**, *i* (rich) and *l* (poor) are unchanged.
+
+Now the change reads as inequality going **up**. The poor in the North (*k*) now share a neighborhood with rising incomes (*j*), and they compete with their newly-rich neighbors for the same local resources — good teachers, decent housing, services — at higher prices.
+
 > *"...aspatial metrics, those not incorporating a spatial view, would quantify both inequality situations in the diagrams as identical."*
 > — dissertation, §1.2
 
-Once you see the labels in 1.2, the change reads differently. The poorer Northern place *k* is now adjacent to a rising-income *j*; the people in *k* may have to compete for local resources — schools, housing, services — against the wealth next door. The aspatial picture treats this as one of many similar redistributions. The spatial picture suggests one situation is plausibly *worse* than the other, even though the global statistics are unchanged.
+Same data, two opposite verdicts. Which one is right depends on the question: *"is the country becoming more equal overall?"* (1.1 is better) versus *"are poor people in this region being pushed out by their neighbors?"* (1.2 is worse).
 
 ## What "spatial view" means
 
@@ -36,7 +43,9 @@ w_ij = 0   otherwise
 
 Place *i* is connected to place *j* if knowing *j*'s outcome changes our belief about *i*'s. Both cooperative dependence (a city's growth lifting a contiguous rural economy) and competitive dependence (neighborhoods competing for local resources) qualify.
 
-**This is a graph.** **W** is an adjacency matrix; each place is a node; edges encode heterogeneous interdependence. The "spatial view" is just a graph view — places relate to other places through specific channels, not as a bag of values.
+**A spatial view is a graph.** **W** is an adjacency matrix; each place is a node; each edge encodes a weighted, heterogeneous connection between places. That's the same structure as a knowledge graph — nodes plus weighted, typed edges.
+
+Both also do the same trick: **they let you compute summary global statistics from local knowledge.** A graph metric (centrality, community detection, a spatially-weighted Gini) is just a global aggregation over local edges. The local edges carry which-pair-matters information that a flat list of values throws away; the aggregation rolls that local information up into a single number without erasing it.
 
 ## Two directions of concern: unfairness vs. suffering
 
@@ -56,14 +65,14 @@ This is the dissertation's central paradox, stated in the abstract:
 
 > *"...spatial inequality metrics formulated for different concerns can register the same change in opposite directions."*
 
-## Aggregate metrics smuggle in moral commitments
+## The spatial view is hidden inside the formula
 
-The conclusion makes the methodological point that has stayed with me:
+The dissertation's conclusion makes the methodological point that has stayed with me:
 
-> *"Formulas for computing inequality statistics are not transparent in how they make implicit spatial generalizations... evaluation of this spatial presumption cannot be done in a manner that is as objective as it may appear to be by the equations within which they are embedded. This is because such evaluations must be informed by normative considerations."*
+> *"Formulas for computing inequality statistics are not transparent in how they make implicit spatial generalizations... evaluation of this spatial presumption cannot be done in a manner that is as objective as it may appear to be by the equations within which they are embedded."*
 > — dissertation, ch. 5
 
-In other words: every aggregate metric implicitly chooses a spatial view, and that choice encodes a moral concern. When the spatial view is hidden inside the formula — wrapped up in a single number — the moral commitment becomes invisible. *Choosing* the spatial view, explicitly, is the act of taking the concern seriously.
+Every aggregate metric implicitly weights pairs of places — and "weight them all equally" is itself a strong assumption, not a neutral default. When the spatial view is hidden inside the formula, the assumption stops being visible. Writing **W** down explicitly makes it available for argument.
 
 ## Connection to the rest of the site
 
@@ -75,7 +84,7 @@ The dissertation's "spatial view = graph" maps onto the same move I keep making 
 | Vector embedding similarity | Knowledge graph + typed edges |
 | RAG-style flat retrieval | IR-compiled queries against typed nodes |
 
-Each right-hand column keeps the relational structure that the left flattens away. The form of the argument is the same in 2014 inequality measurement and in 2026 LLM knowledge systems: domains that look alike at the value level can differ sharply in their relational structure, and the choice of how to keep that structure is a normative choice — not just an engineering one.
+Each right-hand column keeps the *which-pairs-matter* information that the left flattens away. And in both cases, you can compute the same global summaries — just over a richer local structure that lets the answer change when the structure does. The argument is the same in 2014 inequality measurement and in 2026 LLM knowledge systems: domains that look alike at the value level can differ sharply once you put the relational structure back in.
 
 ---
 
