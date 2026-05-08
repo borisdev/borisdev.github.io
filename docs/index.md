@@ -3,17 +3,21 @@ title: Boris Dev — AI Engineer, Knowledge Engineering in Messy Domains
 description: Essays on intermediate representations, evaluation, and the IR-compile pattern across clinical evidence, legal billing, narrative gaming, manufacturing analytics, and geographic inequality.
 ---
 
-# Writing
+## About me
 
-I'm Boris Dev, an AI engineer working on knowledge engineering in messy domains — clinical evidence, legal billing, narrative gaming, manufacturing analytics. Below are essays on the patterns I've seen recur. Some are primarily a way to organize my own learning; I'm not an expert in everything I write about — especially the compiler-design piece. CV at the bottom.
+I'm Boris Dev, an AI engineer working on knowledge engineering in messy domains — clinical evidence, legal billing, narrative gaming, manufacturing analytics. CV at the bottom.
 
-**Elsewhere:**
+## Elsewhere
 
 - [Nobsmed blog](https://nobsmed.com/blog) — work-in-progress notes on clinical-evidence retrieval and personalized trial matching:
     - [The Evidence-to-Person Fit Problem](https://nobsmed.com/blog/evidence-to-person-fit)
     - [The Medical AI Landscape](https://nobsmed.com/blog/medical-ai-landscape)
     - [Medical AI Developer Tooling](https://nobsmed.com/blog/medical-ai-developer-tooling)
 - [fhir-evidence-eval](https://github.com/borisdev/fhir-evidence-eval) — open evals for whether Medical AI preserves granular trial distinctions when matching evidence to a patient
+
+## Writing
+
+Essays on the patterns I've seen recur. Some are primarily a way to organize my own learning; I'm not an expert in everything I write about — especially the compiler-design piece.
 
 | # | Title | Topic |
 |---|-------|-------|
