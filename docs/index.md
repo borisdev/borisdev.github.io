@@ -10,4 +10,5 @@ I'm Boris Dev, an AI engineer working on knowledge engineering in messy domains 
 | 4 | [Why Domain-Specific Language AI Features Fail](domain-specific-language-ai.md) | The customer-discovery process for niche language AI, and why a Lean Startup approach is required |
 | 5 | [Language AI Evaluation 101: Know Your User](language-ai-evaluation-101.md) | Why simplistic Ground Truth produces misleading accuracy metrics; cognitive empathy as the iteration loop |
 | 6 | [Hyper-Local Community Funding: A DAO Alternative to CDFIs](hyperlocal-community-funding.md) | Local digital tokens and DAOs as a delivery mechanism for under-served-neighborhood capital |
-| 7 | [CV: Knowledge Engineering in Messy Domains](boris_dev_resume.md) | The IR-compile pattern across clinical trials, legal billing, maritime construction, narrative gaming, and geographic inequality |
+| 7 | [Inequality Without a Spatial View](spatial-view-is-a-graph.md) | A note from my 2014 dissertation: the "spatial view" is a graph; Rawls and Sen show why aggregate metrics smuggle in moral commitments |
+| 8 | [CV: Knowledge Engineering in Messy Domains](boris_dev_resume.md) | The IR-compile pattern across clinical trials, legal billing, maritime construction, narrative gaming, and geographic inequality |
