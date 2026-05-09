@@ -13,7 +13,7 @@ I'm Boris Dev, a Knowledge Engineer working in messy domains — clinical eviden
     - [The Evidence-to-Person Fit Problem](https://nobsmed.com/blog/evidence-to-person-fit)
     - [The Medical AI Landscape](https://nobsmed.com/blog/medical-ai-landscape)
     - [Medical AI Developer Tooling](https://nobsmed.com/blog/medical-ai-developer-tooling)
-- [fhir-evidence-eval](https://github.com/borisdev/fhir-evidence-eval) — open evals for whether Medical AI preserves granular trial distinctions when matching evidence to a patient
+- [evidence-to-person-eval](https://github.com/borisdev/evidence-to-person-eval) — open benchmark for whether Medical AI applies clinical-study findings to heterogeneous people without overgeneralizing
 
 ## Writing
 

@@ -51,5 +51,5 @@ nav:
     - "Nobsmed: The Evidence-to-Person Fit Problem": https://nobsmed.com/blog/evidence-to-person-fit
     - "Nobsmed: The Medical AI Landscape": https://nobsmed.com/blog/medical-ai-landscape
     - "Nobsmed: Medical AI Developer Tooling": https://nobsmed.com/blog/medical-ai-developer-tooling
-    - "fhir-evidence-eval (GitHub)": https://github.com/borisdev/fhir-evidence-eval
+    - "evidence-to-person-eval (GitHub)": https://github.com/borisdev/evidence-to-person-eval
   - "CV: Knowledge Engineering in Messy Domains": boris_dev_resume.md
