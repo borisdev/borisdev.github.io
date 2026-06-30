@@ -5,7 +5,34 @@ description: Essays on intermediate representations, evaluation, and the IR-comp
 
 ## About me
 
-I'm Boris Dev, a Knowledge Engineer working in messy domains — clinical evidence, legal billing, narrative gaming, manufacturing analytics, and human geography. CV at the bottom.
+I dissect high-stakes AI judgments into the underlying structures experts use—often implicitly—and encode them so the reasoning becomes transparent and reproducible: domain ontology as code.
+
+### Knowledge-dissection projects
+
+- **Tau-Bench Belief State** — What did the user actually want, what did the agent believe, and what did the task rules require? I model these hidden states as a typed problem specification before evaluating the solution. [github.com/borisdev/tau-belief-state-bench](https://github.com/borisdev/tau-belief-state-bench)
+- **NoBSmed** — What makes a medication or supplement recommendation questionable given the evidence, missing evidence, and relevance to the patient?
+- **HealthBench audit** — What makes a "doctor-approved" answer or grading rubric unreliable? I found fabricated citations and 29 possible patient-harm issues in OpenAI's medical-AI benchmark family. [github.com/borisdev/nobsmed-healthbench-audit](https://github.com/borisdev/nobsmed-healthbench-audit)
+- **Wolf Games** — What makes an AI-generated murder-mystery storyboard coherent across interpolated scenes?
+- **PhD thesis** — What makes an inequality metric capture nuanced gaps among social groups in the same city? I modeled those relationships as weighted edges.
+- **SimpleLegal** — What makes "Called the State Senator" lawyer-level work rather than an administrative task? The classification depended on the relevance of the output, not the wording of the task.
+
+### Selected technical impact
+
+- Built an AI agent-evaluation framework for Sindri.ai using Temporal.
+- Helped relaunch a stalled legal-billing AI feature by eliciting lawyer expertise and redesigning the rubric for 11 billing flags.
+- Built story-scene prediction for a gaming startup led by a Law & Order producer.
+- Contributed an experimental causal-graph agent to LangChain: [langchain-ai/langchain#6255](https://github.com/langchain-ai/langchain/pull/6255)
+- Built backend systems for factory analytics, people analytics, and Tableau geospatial services.
+- Embedded subjective concerns into statistical analysis of income inequality in my social-science PhD: [escholarship.org/content/qt8br7d5df](https://escholarship.org/content/qt8br7d5df/qt8br7d5df.pdf)
+
+### Non-tech fun points
+
+- Climbed Cotopaxi (about 19,300 ft).
+- Survived bodyboarding Mexpipe.
+- Taught geospatial data to students in Medellín, Colombia.
+- Taught kids snowboarding.
+- Managed an international restaurant team.
+- Counseled severely emotionally disturbed children.
 
 ## Elsewhere
 
