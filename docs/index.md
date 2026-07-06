@@ -5,19 +5,21 @@ description: Essays on intermediate representations, evaluation, and the IR-comp
 
 ## About me
 
-I dissect high-stakes AI judgments into the underlying structures experts use—often implicitly—and encode them so the reasoning becomes transparent and reproducible: domain ontology as code.
+I dissect implicit domain reasoning into explicit underlying structures, domain ontology as code, so AI can become more transparent and reproducible.
 
 ### Knowledge-dissection projects
 
-- **Tau-Bench Belief State** — What did the user actually want, what did the agent believe, and what did the task rules require? I model these hidden states as a typed problem specification before evaluating the solution. [github.com/borisdev/tau-belief-state-bench](https://github.com/borisdev/tau-belief-state-bench)
+- **τ-PreflightCheck** — What does a user *latently* require before an agent takes a consequential action? I lift each user's implicit requirement, buried in task prose, into a typed, provenance-grounded object a grader can score (`UserPreflightRequirements`) — surfacing failures a task-completion grader misses. [github.com/borisdev/tau-preflight-check-bench](https://github.com/borisdev/tau-preflight-check-bench)
 - **NoBSmed** — What makes a medication or supplement recommendation questionable given the evidence, missing evidence, and relevance to the patient?
 - **HealthBench audit** — What makes a "doctor-approved" answer or grading rubric unreliable? I found fabricated citations and 29 possible patient-harm issues in OpenAI's medical-AI benchmark family. [github.com/borisdev/nobsmed-healthbench-audit](https://github.com/borisdev/nobsmed-healthbench-audit)
+- **Muni-Resilience-Bench** — How much does a specific resilience project (wildfire hardening, flood control, seismic retrofit) lower a city's borrowing cost? An open benchmark for the missing, auditable translation from a project's risk reduction to citywide fiscal impact. [github.com/borisdev/muni-resilience-bench](https://github.com/borisdev/muni-resilience-bench)
 - **Wolf Games** — What makes an AI-generated murder-mystery storyboard coherent across interpolated scenes?
 - **PhD thesis** — What makes an inequality metric capture nuanced gaps among social groups in the same city? I modeled those relationships as weighted edges.
 - **SimpleLegal** — What makes "Called the State Senator" lawyer-level work rather than an administrative task? The classification depended on the relevance of the output, not the wording of the task.
 
 ### Selected technical impact
 
+- Audited OpenAI's HealthBench medical-AI benchmark family — surfaced fabricated citations and 29 possible patient-harm issues: [github.com/borisdev/nobsmed-healthbench-audit](https://github.com/borisdev/nobsmed-healthbench-audit)
 - Built an AI agent-evaluation framework for Sindri.ai using Temporal.
 - Helped relaunch a stalled legal-billing AI feature by eliciting lawyer expertise and redesigning the rubric for 11 billing flags.
 - Built story-scene prediction for a gaming startup led by a Law & Order producer.
