@@ -5,7 +5,7 @@ description: Essays on intermediate representations, evaluation, and the IR-comp
 
 ## About me
 
-I dissect implicit domain reasoning into explicit underlying structures, domain ontology as code, so AI can become more transparent and reproducible.
+So AI can be safer, I evaluate its performance. One cool way to do this is to figure out the hidden story inside a human expert's mind when they evaluate performance in their field.
 
 ### Knowledge-dissection projects
 
