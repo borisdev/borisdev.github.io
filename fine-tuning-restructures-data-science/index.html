@@ -1,0 +1,1159 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="How fine-tuned LLMs can reduce reliance on annotation pipelines and the NN-optimization role; the rise of the fine-tuning analyst.">
+      
+      
+        <meta name="author" content="Boris Dev">
+      
+      
+        <link rel="canonical" href="https://borisdev.dev/fine-tuning-restructures-data-science/">
+      
+      
+        <link rel="prev" href="../knowledge-engineering/">
+      
+      
+        <link rel="next" href="../domain-specific-language-ai/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Fine-Tuning LLMs Will Restructure Your Data Science Team - Boris Dev</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="purple">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#fine-tuning-llms-will-restructure-your-data-science-team" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Boris Dev" class="md-header__button md-logo" aria-label="Boris Dev" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Boris Dev
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Fine-Tuning LLMs Will Restructure Your Data Science Team
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="purple"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="purple"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Boris Dev" class="md-nav__button md-logo" aria-label="Boris Dev" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Boris Dev
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../domain-grammar-compiler/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Beyond RAG: Chomsky's I-Language Meets Compiler Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../knowledge-engineering/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    What Is Knowledge Engineering, Really?
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fine-Tuning LLMs Will Restructure Your Data Science Team
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fine-Tuning LLMs Will Restructure Your Data Science Team
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tldr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TL;DR
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-problem-were-focused-on" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The problem we're focused on
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-human-annotation-often-produces-low-quality-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why human annotation often produces low-quality output
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fine-tuning-vs-prompt-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fine-tuning vs. prompt design
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-the-workflow-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How the workflow changes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How the workflow changes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-old-way-to-run-one-experiment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The old way to run one experiment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-new-way-to-run-one-experiment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The new way to run one experiment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#summary-of-differences" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary of differences
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-new-relationship-the-expert-and-the-analyst" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A new relationship: the expert and the analyst
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-decision-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A decision framework
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Further reading
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../domain-specific-language-ai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Why Domain-Specific Language AI Features Fail
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../language-ai-evaluation-101/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Language AI Evaluation 101: Know Your User
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hyperlocal-community-funding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hyper-Local Community Funding: A DAO Alternative to CDFIs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../spatial-view-is-a-graph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inequality with a Spatial View
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Elsewhere
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Elsewhere
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://nobsmed.com/blog/evidence-to-person-fit" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nobsmed: The Evidence-to-Person Fit Problem
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://nobsmed.com/blog/medical-ai-landscape" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nobsmed: The Medical AI Landscape
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://nobsmed.com/blog/medical-ai-developer-tooling" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nobsmed: Medical AI Developer Tooling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/borisdev/evidence-to-person-eval" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    evidence-to-person-eval (GitHub)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../boris_dev_resume/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CV: Knowledge Engineering in Messy Domains
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tldr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TL;DR
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-problem-were-focused-on" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The problem we're focused on
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-human-annotation-often-produces-low-quality-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why human annotation often produces low-quality output
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fine-tuning-vs-prompt-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fine-tuning vs. prompt design
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-the-workflow-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How the workflow changes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How the workflow changes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-old-way-to-run-one-experiment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The old way to run one experiment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-new-way-to-run-one-experiment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The new way to run one experiment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#summary-of-differences" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary of differences
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-new-relationship-the-expert-and-the-analyst" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A new relationship: the expert and the analyst
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-decision-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A decision framework
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Further reading
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="fine-tuning-llms-will-restructure-your-data-science-team">Fine-tuning LLMs will restructure your data science team</h1>
+<p><em>How fine-tuned LLMs can replace human annotation pipelines and the NN-optimization role — and what the new team looks like.</em></p>
+<h2 id="tldr">TL;DR</h2>
+<p>If your AI feature depends on a text classification model, consider building a proof of concept by fine-tuning an LLM instead of training your own model from scratch. Fine-tuning addresses several problems at once:</p>
+<ul>
+<li>low labeling quality</li>
+<li>slow labeling speed</li>
+<li>no in-house neural-network expertise</li>
+<li>no in-house MLOps expertise</li>
+</ul>
+<p>The deeper consequence — and the focus of this paper — is that fine-tuning forces a fundamental change in <em>how ML projects are organized</em>. Two old roles disappear (or shrink dramatically): the human annotation team and the neural-network optimization scientist. One new role takes their place: the <strong>fine-tuning analyst</strong>.</p>
+<h2 id="the-problem-were-focused-on">The problem we're focused on</h2>
+<p>The software problem in scope is building a niche text classifier. The purpose of a niche classifier is to scale the mental model of a domain expert — for example, deciding which support tickets are urgent, or which legal invoice line items are non-compliant.</p>
+<p>Some things do not change with LLMs. The root problem is still that you need to get your expert's domain knowledge into a computational prediction model. That is the same whether you use human annotators or fine-tune an LLM. The work is still iterative:</p>
+<ol>
+<li>Distill your expert's mental model into labeled examples.</li>
+<li>Train a computer model with those examples.</li>
+<li>Analyze the resulting predictions.</li>
+<li>If good enough, launch. Otherwise figure out where you missed in modeling your expert's knowledge, and repeat.</li>
+</ol>
+<p>What changes is <em>who does steps 1–3</em> and <em>how fast they can do them</em>.</p>
+<h2 id="why-human-annotation-often-produces-low-quality-output">Why human annotation often produces low-quality output</h2>
+<p>The purpose of human annotators is to scale your expert in order to train the model faster. The problem is that it is not trivial to transfer the mental model of your expert to the human annotators. The lag between giving annotators new guidance and seeing whether it improved model performance is long, and the signal at the end is noisy. By the time you discover the rubric was wrong, you have paid for thousands of mislabeled examples.</p>
+<h2 id="fine-tuning-vs-prompt-design">Fine-tuning vs. prompt design</h2>
+<p>An off-the-shelf LLM cannot reliably produce niche classifications using prompting alone. Niche means the model has to internalize specialized rules and terminology that aren't well represented in its pre-training. Fine-tuning is the mechanism by which the expert's mental model gets compiled into the model's weights.</p>
+<h2 id="how-the-workflow-changes">How the workflow changes</h2>
+<h3 id="the-old-way-to-run-one-experiment">The old way to run one experiment</h3>
+<pre class="mermaid"><code>sequenceDiagram
+    autonumber
+    actor E as Domain expert
+    actor L as Human annotators
+    actor NN as NN expert
+    participant M as ML model
+    E-&gt;&gt;L: rationales
+    L-&gt;&gt;M: examples
+    M--&gt;&gt;E: prediction feedback
+    NN-&gt;&gt;M: change build parameters
+    M--&gt;&gt;NN: prediction feedback</code></pre>
+<h3 id="the-new-way-to-run-one-experiment">The new way to run one experiment</h3>
+<pre class="mermaid"><code>sequenceDiagram
+    autonumber
+    actor E as Domain expert
+    actor A as Fine-tuning analyst
+    participant LLM as Base LLM
+    participant M as Fine-tuned LLM
+    E-&gt;&gt;A: rationales
+    A-&gt;&gt;LLM: programmatic examples
+    LLM-&gt;&gt;M: fine-tune
+    M--&gt;&gt;E: prediction feedback</code></pre>
+<h3 id="summary-of-differences">Summary of differences</h3>
+<table>
+<thead>
+<tr>
+<th>Topic</th>
+<th>Step</th>
+<th>How the new replaces the old</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Representing expert's mental model</td>
+<td>1</td>
+<td>Coded rationales replace natural-language rationales.</td>
+</tr>
+<tr>
+<td>Human annotation</td>
+<td>2</td>
+<td>The fine-tuning analyst replaces the human annotation team.</td>
+</tr>
+<tr>
+<td>Training examples</td>
+<td>2</td>
+<td>A fast, reproducible process replaces a slow, non-reproducible one.</td>
+</tr>
+<tr>
+<td>Feedback</td>
+<td>3</td>
+<td>Quick but more complex feedback analysis replaces a slow, simple one.</td>
+</tr>
+<tr>
+<td>Model architecture</td>
+<td>4, 5</td>
+<td>An external service makes the expensive NN R&amp;D loop unnecessary.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="a-new-relationship-the-expert-and-the-analyst">A new relationship: the expert and the analyst</h2>
+<p>The fine-tuning analyst is the new player in the game. The analyst transforms the expert's rationales into code that produces examples to fine-tune the LLM, then reports results back to the expert so the expert can refine the rationale.</p>
+<pre class="mermaid"><code>flowchart LR
+    E((Expert))-- rationales --&gt;A((Fine-tuning analyst))
+    A-. reports .-&gt;E</code></pre>
+<p>Success depends on the quality of this collaboration. It is a relationship that did not exist in the old workflow, and it demands a different skill set than the NN optimization scientist of the past:</p>
+<ul>
+<li>The analyst works much more intensely with the expert and needs strong <strong>cognitive empathy</strong>.</li>
+<li>The analyst does <strong>not</strong> need sophisticated knowledge of neural network architecture.</li>
+<li>The analyst performs <strong>heavy exploratory data analysis</strong> — the work resembles the kind of analyst role described in <a href="https://hbr.org/2018/12/what-great-data-analysts-do-and-why-every-organization-needs-them">HBR's "What Great Data Analysts Do"</a> more than it does traditional ML engineering.</li>
+</ul>
+<h2 id="a-decision-framework">A decision framework</h2>
+<p>Before reorganizing, run a small experiment. The question to answer empirically is whether <strong>the cost to reach your benchmark with a fine-tuning analyst is lower than the cost with human annotators plus an NN optimization scientist.</strong> Pick a representative slice of your problem, run both pipelines side by side, and measure cost-to-benchmark, not just final accuracy.</p>
+<p>If the new approach wins on your problem, you have grounds to restructure. If it doesn't, you've learned why — and the rationale document you produced along the way will make your old pipeline better too.</p>
+<h2 id="further-reading">Further reading</h2>
+<ul>
+<li><a href="https://platform.openai.com/docs/guides/fine-tuning">OpenAI's fine-tuning guide</a></li>
+<li><a href="https://github.com/openai/openai-cookbook/blob/main/examples/Fine-tuned_classification.ipynb">OpenAI's fine-tuned classification example</a></li>
+<li><a href="https://snorkel.ai/better-not-bigger-how-to-get-gpt-3-quality-at-0-1-the-cost/">Snorkel: Better not bigger — how to get GPT-3 quality at 0.1% the cost</a></li>
+<li><a href="https://github.com/HazyResearch/data-centric-ai">Data-Centric AI</a></li>
+</ul>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.code.copy", "navigation.instant", "navigation.top"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
